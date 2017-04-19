@@ -4,7 +4,6 @@ import peersim.config.*;
 import peersim.core.*;
 import java.util.Vector;
 
-/* A protocol that stores links */
 public class NeighborsProtocol implements Protocol, Linkable {
 	
 	/** Neighbors */ 
