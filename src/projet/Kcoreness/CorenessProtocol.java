@@ -1,4 +1,4 @@
-package Coreness;
+package projet.Kcoreness;
 
 
 import peersim.core.Node;
