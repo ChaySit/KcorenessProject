@@ -152,7 +152,7 @@ public static void main(String[] args)
 	
 	System.err.println("Simulator: loading configuration");
 	try {
-		Configuration.setConfig( new ParsedProperties("C:\\Eclipse\\ProjetApplication\\example\\config-example1.txt") );
+		Configuration.setConfig( new ParsedProperties("C:\\Eclipse\\ProjetApplication\\src\\projet\\Kcoreness\\config_coreness.txt") );
 	} catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();

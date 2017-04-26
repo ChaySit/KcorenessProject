@@ -25,11 +25,11 @@ public class KcorenessObserver implements Control{
 	@Override
 	public boolean execute() {
 		Node peer;
-		CorenessProtocol KCprotocol;
+		KcorenessFunction KCprotocol;
 		//Prints the Kcore of each node 
 		for (int i=0; i< Network.size(); i++){
 			peer = Network.get(i);
-			KCprotocol = (CorenessProtocol) peer.getProtocol(pid);
+			KCprotocol = (KcorenessFunction) peer.getProtocol(pid);
 			System.out.println("Peer "+peer.getID()+" Kcore = "+KCprotocol.getCoreness());
 		}
 		return false;

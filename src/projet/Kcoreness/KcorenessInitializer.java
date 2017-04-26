@@ -8,8 +8,9 @@ import peersim.core.Node;
 
 
 public class KcorenessInitializer implements Control {
-  
-   //Parameters
+    
+
+    //Parameters
     private static final String PAR_PROT = "protocol";
     private static final String LINKABLE_PROT = "linkable";
 
@@ -26,7 +27,7 @@ public class KcorenessInitializer implements Control {
     @Override
     public boolean execute() {
         for (int i=0; i< Network.size(); i++){
-            CorenessProtocol protocol = (CorenessProtocol) Network.get(i).getProtocol(pid);
+        	KcorenessFunction protocol = (KcorenessFunction) Network.get(i).getProtocol(pid);
             Linkable linkable = (Linkable) Network.get(i).getProtocol(linkpid);
             protocol.setChanged(false);
             protocol.setCoreness(linkable.degree());
@@ -37,5 +38,4 @@ public class KcorenessInitializer implements Control {
         }
         return false;
     }
-
 }

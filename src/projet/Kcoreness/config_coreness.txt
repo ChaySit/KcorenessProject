@@ -1,0 +1,27 @@
+
+random.seed 1234567890
+simulation.cycles 40
+
+control.shf Shuffle
+
+network.size 3000
+
+protocol.lnk NeighborsProtocol
+
+protocol.core KcorenessFunction
+protocol.core.linkable lnk
+
+init.wire WireKOut
+init.wire.protocol lnk
+init.wire.k 5
+
+
+init.initial KcorenessInitializer
+init.initial.protocol core
+init.initial.linkable lnk
+
+
+include.init wire initial
+
+
+
