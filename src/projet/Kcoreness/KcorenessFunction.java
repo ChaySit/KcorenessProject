@@ -81,8 +81,8 @@ private int coreness;
           if (link.degree() > 0) {
               for (int i=0; i<link.degree(); i++) {
                    neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
-           neighborID=(int) link.getNeighbor(i).getID();
-           neighborCoreness = neighborNode.getCoreness();
+                   neighborID=(int) link.getNeighbor(i).getID();
+                   neighborCoreness = neighborNode.getCoreness();
 
            int ncore = (Integer)currentNode.getEstimation().get(neighborID);
            //System.out.println(neighborID);
