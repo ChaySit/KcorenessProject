@@ -4,7 +4,7 @@ simulation.cycles 40
 
 control.shf Shuffle
 
-network.size 4000
+network.size 100
 
 protocol.lnk NeighborsProtocol
 
@@ -13,7 +13,7 @@ protocol.core.linkable lnk
 
 init.wire WireKOut
 init.wire.protocol lnk
-init.wire.k 100
+init.wire.k 5
 
 
 init.initial KcorenessInitializer
@@ -25,12 +25,6 @@ include.init wire initial
 
 control.obs KcorenessObserver
 control.obs.protocol core
-
-control.dnet DynamicNetwork
-control.dnet.add -500
-#control.dnet.minsize 4000
-control.dnet.from 5
-control.dnet.until 10
 
 
 

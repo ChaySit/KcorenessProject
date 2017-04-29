@@ -4,7 +4,7 @@ simulation.cycles 40
 
 control.shf Shuffle
 
-network.size 5
+network.size 100
 
 protocol.lnk NeighborsProtocol
 
@@ -13,7 +13,7 @@ protocol.core.linkable lnk
 
 init.wire WireKOut
 init.wire.protocol lnk
-init.wire.k 2
+init.wire.k 5
 
 
 init.initial KcorenessInitializer
