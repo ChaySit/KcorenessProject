@@ -89,7 +89,7 @@ public class KcorenessObserver implements Control{
      	graph.addEdge("c40", "n3", "n7");
      	graph.addEdge("c41", "n7", "n11");
      	graph.addEdge("c42", "n11", "n15");
-     	// Display and adding style 
+     	// Display and add style 
      	graph.addAttribute("ui.stylesheet", styleSheet);
 		graph.display();
 		
@@ -103,7 +103,7 @@ public class KcorenessObserver implements Control{
 			System.out.println("Peer "+peer.getID()+ " has Kcoreness = "+ currentNode.getCoreness());
 			System.out.println("the estimation of its neighbors's coreness " + currentNode.getEstimation());
 			
-	         // Stockage du kcore de chaque node sur les nodes du graphStream
+	         // Storing the kcore of each node on the nodes of the graphStream
 	         SingleNode n = graph.getNode("n"+i);
 	         n.setAttribute("kcore",currentNode.getCoreness());
 	         n.setAttribute("ID",peer.getID());
