@@ -173,34 +173,26 @@ public static Graph wireStar( Graph g ) {
 public static Graph wireGrid(Graph g ) {
 	
 	final int n = g.size();	
-	for(int i=0; i<n/Math.sqrt(n); ++i) {
-		    if (i!=n/Math.sqrt(n)-1){
-		    	g.setEdge(i,i+1);
+	for (int m=0; m<Math.sqrt(n); m++){
+		if (m != Math.sqrt(n)-1){
+			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
+			    if (i != (m+1)*n/Math.sqrt(n)-1){
+			    	g.setEdge(i,i+1);
+			    	g.setEdge(i+1,i);
+			    }
+			    g.setEdge(i,(int) (i+Math.sqrt(n)));
+			    g.setEdge((int) (i+Math.sqrt(n)),i);   	
+		    }
+		}
+		else {
+			for(int i=(int) ((Math.sqrt(n)-1)*n/Math.sqrt(n)); i<n-1; ++i) {
+				g.setEdge(i,i+1);
 		    	g.setEdge(i+1,i);
 		    }
-	    	g.setEdge(i,(int) (i+Math.sqrt(n)));
-	    	g.setEdge((int) (i+Math.sqrt(n)),i);
+		}
+		
 	}
-	for(int i=(int) (n/Math.sqrt(n)); i<2*n/Math.sqrt(n); ++i) {
-		    if (i != (2*n/Math.sqrt(n))-1){
-		    	g.setEdge(i,i+1);
-		    	g.setEdge(i+1,i);
-		    }
-	    	g.setEdge(i,(int) (i+Math.sqrt(n)));
-	    	g.setEdge((int) (i+Math.sqrt(n)),i);
-	}
-	for(int i=(int) (2*n/Math.sqrt(n)); i<3*n/Math.sqrt(n); ++i) {
-	    if (i != (3*n/Math.sqrt(n))-1){
-	    	g.setEdge(i,i+1);
-	    	g.setEdge(i+1,i);
-	    }
-    	g.setEdge(i,(int) (i+Math.sqrt(n)));
-    	g.setEdge((int) (i+Math.sqrt(n)),i);
-    }
-	for(int i=(int) (3*n/Math.sqrt(n)); i<n-1; ++i) {
-		g.setEdge(i,i+1);
-    	g.setEdge(i+1,i);
-    }
+	
 	return g;	
 }
 

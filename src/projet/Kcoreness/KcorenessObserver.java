@@ -53,9 +53,11 @@ public class KcorenessObserver implements Control{
 		/*** Graph à visualiser avec graphstream ***/ 
 		SingleGraph graph = new SingleGraph("Kcoreness graph");
         // Nodes //
-		for(int i=0;i<16;i++){
+		for(int i=0;i<Network.size();i++){
 			graph.addNode("n"+i);
 		}
+		
+		
 		// Edges //	
         // Lignes 
      	graph.addEdge("l10", "n0", "n1");
@@ -89,6 +91,7 @@ public class KcorenessObserver implements Control{
      	graph.addEdge("c40", "n3", "n7");
      	graph.addEdge("c41", "n7", "n11");
      	graph.addEdge("c42", "n11", "n15");
+     	
      	// Display and add style 
      	graph.addAttribute("ui.stylesheet", styleSheet);
 		graph.display();
@@ -117,7 +120,7 @@ public class KcorenessObserver implements Control{
 		}
 				
 		// TODO : Animation of the graph
-		/*for(int i=0;i<16;i++){
+		/*for(int i=0;i<Network.size();i++){
 			explore(graph.getNode("n"+i));
 		}*/
 			
