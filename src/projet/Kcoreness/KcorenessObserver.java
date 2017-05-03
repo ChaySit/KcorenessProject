@@ -56,45 +56,26 @@ public class KcorenessObserver implements Control{
 		for(int i=0;i<Network.size();i++){
 			graph.addNode("n"+i);
 		}
-		
-		
-		// Edges //	
-        // Lignes 
-     	graph.addEdge("l10", "n0", "n1");
-     	graph.addEdge("l11", "n1", "n2");
-     	graph.addEdge("l12", "n2", "n3");
-     	// =============================		
-     	graph.addEdge("l20", "n4", "n5");
-     	graph.addEdge("l21", "n5", "n6");
-     	graph.addEdge("l22", "n6", "n7");
-        // =============================		
-     	graph.addEdge("l30", "n8", "n9");
-     	graph.addEdge("l31", "n9", "n10");
-     	graph.addEdge("l32", "n10", "n11");
-        // =============================		
-     	graph.addEdge("l40", "n12", "n13");
-     	graph.addEdge("l41", "n13", "n14");
-     	graph.addEdge("l42", "n14", "n15");			
-     	// Colonnes 
-     	graph.addEdge("c10", "n0", "n4");
-     	graph.addEdge("c11", "n4", "n8");
-     	graph.addEdge("c12", "n8", "n12");
-        // =============================		
-     	graph.addEdge("c20", "n1", "n5");
-     	graph.addEdge("c21", "n5", "n9");
-     	graph.addEdge("c22", "n9", "n13");
-        // =============================		
-     	graph.addEdge("c30", "n2", "n6");
-     	graph.addEdge("c31", "n6", "n10");
-     	graph.addEdge("c32", "n10", "n14");
-        // =============================		
-     	graph.addEdge("c40", "n3", "n7");
-     	graph.addEdge("c41", "n7", "n11");
-     	graph.addEdge("c42", "n11", "n15");
-     	
-     	// Display and add style 
+		// Edges //
+		for (int m=0; m<Math.sqrt(Network.size()); m++){
+		if (m != Math.sqrt(Network.size())-1){
+			for(int i=(int) (m*Network.size()/Math.sqrt(Network.size())); i<((m+1)*Network.size()/Math.sqrt(Network.size())); ++i) {
+			    if (i != (m+1)*Network.size()/Math.sqrt(Network.size())-1){
+			    	graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
+			    }
+			    graph.addEdge("c"+i+(i+1),"n"+i,"n"+(int) (i+Math.sqrt(Network.size())));
+		    }
+		}
+		else {
+			for(int i=(int) ((Math.sqrt(Network.size())-1)*Network.size()/Math.sqrt(Network.size())); i<Network.size()-1; ++i) {
+				graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
+		    }
+		 }
+	    }
+     	// Display and add style //
      	graph.addAttribute("ui.stylesheet", styleSheet);
 		graph.display();
+		/* *************************************************** */
 		
 		Node peer = null;
 		KcorenessFunction currentNode;
