@@ -58,19 +58,19 @@ public class KcorenessObserver implements Control{
 		}
 		// Edges //
 		for (int m=0; m<Math.sqrt(Network.size()); m++){
-		if (m != Math.sqrt(Network.size())-1){
-			for(int i=(int) (m*Network.size()/Math.sqrt(Network.size())); i<((m+1)*Network.size()/Math.sqrt(Network.size())); ++i) {
-			    if (i != (m+1)*Network.size()/Math.sqrt(Network.size())-1){
-			    	graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
+			if (m != Math.sqrt(Network.size())-1){
+				for(int i=(int) (m*Network.size()/Math.sqrt(Network.size())); i<((m+1)*Network.size()/Math.sqrt(Network.size())); ++i) {
+				    if (i != (m+1)*Network.size()/Math.sqrt(Network.size())-1){
+				    	graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
+				    }
+				    graph.addEdge("c"+i+(i+1),"n"+i,"n"+(int) (i+Math.sqrt(Network.size())));
 			    }
-			    graph.addEdge("c"+i+(i+1),"n"+i,"n"+(int) (i+Math.sqrt(Network.size())));
+			}
+		    else {
+		    	for(int i=(int) ((Math.sqrt(Network.size())-1)*Network.size()/Math.sqrt(Network.size())); i<Network.size()-1; ++i) {
+					graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
+			    }
 		    }
-		}
-		else {
-			for(int i=(int) ((Math.sqrt(Network.size())-1)*Network.size()/Math.sqrt(Network.size())); i<Network.size()-1; ++i) {
-				graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
-		    }
-		 }
 	    }
      	// Display and add style //
      	graph.addAttribute("ui.stylesheet", styleSheet);
