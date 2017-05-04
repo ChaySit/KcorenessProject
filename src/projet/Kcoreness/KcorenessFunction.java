@@ -110,9 +110,9 @@ private int coreness; // the local estimate of the coreness of the node
              int k ;
              for (int i = 0; i < link.degree(); i++) {
             	 
-            	 neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
+            	 //neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
                  neighborID=(int) link.getNeighbor(i).getID();
-                 neighborCoreness = neighborNode.getCoreness();
+                 //neighborCoreness = neighborNode.getCoreness();
                  
                  k = (currentNode.getCoreness() < (int) currentNode.getEstimation().get(neighborID)) ? currentNode.getCoreness() : (int) currentNode.getEstimation().get(neighborID);
                  counts[k] = counts[k] + 1;

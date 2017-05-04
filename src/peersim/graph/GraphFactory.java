@@ -165,7 +165,7 @@ public static Graph wireStar( Graph g ) {
 //-------------------------------------------------------------------
 
 /**
-* A graphStream graph
+* A sink grid
 * Wires a grid topology
 * @param g the graph to be wired
 * @return returns g for convenience
@@ -173,6 +173,17 @@ public static Graph wireStar( Graph g ) {
 public static Graph wireGrid(Graph g ) {
 	
 	final int n = g.size();	
+	/*// The graph on the article, to test KcorenessFunction
+	for (int i=0; i<n-1; i++){
+		g.setEdge(i,i+1);
+    	g.setEdge(i+1,i);
+	}
+	g.setEdge(2,4);
+	g.setEdge(4,2);
+	
+	g.setEdge(1,3);
+	g.setEdge(3,1);//*/
+	
 	for (int m=0; m<Math.sqrt(n); m++){
 		if (m != Math.sqrt(n)-1){
 			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {

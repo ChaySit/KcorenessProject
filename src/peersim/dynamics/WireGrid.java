@@ -27,7 +27,7 @@ public WireGrid(String prefix) { super(prefix); }
 
 /** Calls {@link GraphFactory#wireGrid}.*/
 public void wire(Graph g) {
-	
+	//The wiring logic 
 	GraphFactory.wireGrid(g);
 }
 
