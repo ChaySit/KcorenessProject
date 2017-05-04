@@ -75,7 +75,6 @@ public WireKOut(String prefix)
 
 /** Calls {@link GraphFactory#wireKOut}. */
 public void wire(Graph g) {
-
 	GraphFactory.wireKOut(g,k,CommonState.r);
 }
 

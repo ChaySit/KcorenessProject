@@ -19,6 +19,8 @@
 package peersim.graph;
 
 import java.util.*;
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.*;
 
 /**
 * Contains static methods for wiring certain kinds of graphs. The general
@@ -158,6 +160,40 @@ public static Graph wireStar( Graph g ) {
 	final int n = g.size();
 	for(int i=1; i<n; ++i) g.setEdge(i,0);
 	return g;
+}
+
+//-------------------------------------------------------------------
+
+/**
+* A graphStream graph
+* Wires a grid topology
+* @param g the graph to be wired
+* @return returns g for convenience
+*/
+public static Graph wireGrid(Graph g ) {
+	
+	final int n = g.size();	
+	for (int m=0; m<Math.sqrt(n); m++){
+		if (m != Math.sqrt(n)-1){
+			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
+			    if (i != (m+1)*n/Math.sqrt(n)-1){
+			    	g.setEdge(i,i+1);
+			    	g.setEdge(i+1,i);
+			    }
+			    g.setEdge(i,(int) (i+Math.sqrt(n)));
+			    g.setEdge((int) (i+Math.sqrt(n)),i);   	
+		    }
+		}
+		else {
+			for(int i=(int) ((Math.sqrt(n)-1)*n/Math.sqrt(n)); i<n-1; ++i) {
+				g.setEdge(i,i+1);
+		    	g.setEdge(i+1,i);
+		    }
+		}
+		
+	}
+	
+	return g;	
 }
 
 // -------------------------------------------------------------------
