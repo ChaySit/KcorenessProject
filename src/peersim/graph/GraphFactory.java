@@ -172,7 +172,7 @@ public static Graph wireStar( Graph g ) {
 */
 public static Graph wireGrid(Graph g ) {
 	
-	final int n = g.size();	
+	final int n = g.size();
 	for (int m=0; m<Math.sqrt(n); m++){
 		if (m != Math.sqrt(n)-1){
 			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
@@ -192,6 +192,7 @@ public static Graph wireGrid(Graph g ) {
 		}
 		
 	}
+
 	
 	return g;	
 }

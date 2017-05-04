@@ -71,15 +71,14 @@ private int coreness; // the local estimate of the coreness of the node
 
    @Override
    public void nextCycle(Node node, int protocolID) {
-	   
-          KcorenessFunction currentNode = (KcorenessFunction) node.getProtocol(protocolID);
-          Linkable link = (Linkable) node.getProtocol(linkpid);
-          
-          int[] counts = new int[currentNode.getCoreness() + 1];
-          
-          int neighborCoreness;
-          KcorenessFunction neighborNode;
-          int neighborID ;
+
+       KcorenessFunction currentNode = (KcorenessFunction) node.getProtocol(protocolID);
+       Linkable link = (Linkable) node.getProtocol(linkpid);
+       int neighborCoreness;
+       KcorenessFunction neighborNode;
+       int neighborID ;
+
+       // Initialization send (currentNode,currentNode.getCoreness) to neighbors(currentNode)
 
           if (link.degree() > 0) {
         	  
@@ -90,51 +89,67 @@ private int coreness; // the local estimate of the coreness of the node
                    neighborCoreness = neighborNode.getCoreness();
 
                    int ncore = (Integer)currentNode.getEstimation().get(neighborID);
-                   
-                   //System.out.println(neighborID);
-                   //System.out.println(currentNode.getEstimation());
-                   
+
                    if (neighborCoreness < ncore){
                        currentNode.getEstimation().put(neighborID, neighborCoreness);
+
+                       //recalculating the estimation of local coreness
+                       int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
+
+                       if (t < currentNode.getCoreness()) {
+                           currentNode.setCoreness(t);
+                           currentNode.setChanged(true);
+                       }
                    }
-           
-                   //System.out.println(currentNode.getEstimation());
-                   //System.out.println("------------------");
+
              }
       
-             //recalculating the estimation of local coreness
-             for (int j = 1; j < currentNode.getCoreness(); j++) {
-            	 counts[j] = 0;
-             }
-                  
-             int k ;
-             for (int i = 0; i < link.degree(); i++) {
-            	 
-            	 neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
-                 neighborID=(int) link.getNeighbor(i).getID();
-                 neighborCoreness = neighborNode.getCoreness();
-                 
-                 k = (currentNode.getCoreness() < (int) currentNode.getEstimation().get(neighborID)) ? currentNode.getCoreness() : (int) currentNode.getEstimation().get(neighborID);
-                 counts[k] = counts[k] + 1;
-             }
-             
-             for (int i = currentNode.getCoreness(); i >= 2; i--) {
-            	 counts[i - 1] = counts[i - 1] + counts[i];
-             }
-           
 
-             int i = currentNode.getCoreness();
-             while (i > 1 && counts[i] < i) {
-            	 i--;
-             }
-            
-
-             if (i < currentNode.getCoreness()) {
-            	 currentNode.setCoreness(i);
-                 currentNode.setChanged(true);
-             }
 
     }
+
+  }
+
+    /** ComputeIndex compute the new temporary estimation of coreness
+     * @param estimation
+     * @param currentNode
+     * @param k
+     * @return the largest value i such that there are at least i entries; >= than i in neighbors estimation
+     */
+
+  public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode,int k , Node node){
+
+      Linkable link = (Linkable) node.getProtocol(linkpid);
+      int[] counts = new int[currentNode.getCoreness() + 1];
+      int i,j;
+
+      for (i = 1; i < currentNode.getCoreness(); i++) {
+          counts[i] = 0;
+      }
+
+      //compute how many nodes have estimated coreness >=i and store this value in array counts
+
+      for (i = 0; i < estimation.size(); i++) {
+
+          int neighborID=(int) link.getNeighbor(i).getID();
+
+          j = (k < (int) estimation.get(neighborID)) ? k : (int) estimation.get(neighborID);
+          counts[j] = counts[j] + 1;
+      }
+
+      for (i = k; i >= 2; i--) {
+          counts[i - 1] = counts[i - 1] + counts[i];
+      }
+
+      i=k;
+
+      //Searching the largest value i such that count[i]>=i
+
+      while (i > 1 && counts[i] < i) {
+          i--;
+      }
+
+      return i;
 
   }
 
