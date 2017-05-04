@@ -172,6 +172,7 @@ public static Graph wireStar( Graph g ) {
 */
 public static Graph wireGrid(Graph g ) {
 	
+
 	final int n = g.size();	
 	/*// The graph on the article, to test KcorenessFunction
 	for (int i=0; i<n-1; i++){
@@ -203,6 +204,7 @@ public static Graph wireGrid(Graph g ) {
 		}
 		
 	}
+
 	
 	return g;	
 }
