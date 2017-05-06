@@ -71,12 +71,12 @@ public class KcorenessObserver implements Control{
 					graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
 			    }
 		    }
-	    }
+	    }//*/
 		/*// The graph on the article, to test KcorenessFunction
 		for (int i=0; i<Network.size()-1; i++){
 			graph.addEdge("l"+i+(i+1),"n"+i,"n"+(i+1));
-		}
-		graph.addEdge("c"+35,"n"+2,"n"+4);
+		}//*/
+		/*graph.addEdge("c"+35,"n"+2,"n"+4);
 		graph.addEdge("c"+24,"n"+1,"n"+3);//*/
      	// Display and add style //
      	graph.addAttribute("ui.stylesheet", styleSheet);
@@ -90,8 +90,8 @@ public class KcorenessObserver implements Control{
 			peer = Network.get(i);
 			currentNode = (KcorenessFunction) peer.getProtocol(pid);
 			// Diplay console 
-			System.out.println("Peer "+peer.getID()+ " has Kcoreness = "+ currentNode.getCoreness());
-			System.out.println("the estimation of its neighbors's coreness " + currentNode.getEstimation());
+			//System.out.println("Peer "+peer.getID()+ " has Kcoreness = "+ currentNode.getCoreness());
+			//System.out.println("the estimation of its neighbors's coreness " + currentNode.getEstimation());
 			
 	         // Storing the kcore of each node on the nodes of the graphStream graph
 	         SingleNode n = graph.getNode("n"+i);

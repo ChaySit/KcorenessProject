@@ -18,6 +18,9 @@
 		
 package peersim.graph;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.*;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
@@ -172,7 +175,6 @@ public static Graph wireStar( Graph g ) {
 */
 public static Graph wireGrid(Graph g ) {
 	
-
 	final int n = g.size();	
 	/*// The graph on the article, to test KcorenessFunction
 	for (int i=0; i<n-1; i++){
@@ -185,6 +187,7 @@ public static Graph wireGrid(Graph g ) {
 	g.setEdge(1,3);
 	g.setEdge(3,1);//*/
 	
+	/*// Grid graph
 	for (int m=0; m<Math.sqrt(n); m++){
 		if (m != Math.sqrt(n)-1){
 			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
@@ -201,12 +204,27 @@ public static Graph wireGrid(Graph g ) {
 				g.setEdge(i,i+1);
 		    	g.setEdge(i+1,i);
 		    }
-		}
-		
-	}
-
+		}		
+	}//*/
 	
-	return g;	
+	
+	// XML Output to graphML.XML file 
+    GraphIO io = new GraphIO();
+    return io.GraphMLReader(g);
+    // XML Output to console for testing
+    //PrintStream out = null;
+	//PrintStream out = new PrintStream(System.out);
+	
+	/*try {
+		out = new PrintStream(new File("C:\\Eclipse\\ProjetApplication\\src\\projet\\Kcoreness\\graphML.xml"));
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	GraphIO.ourWriteGML(g, out);*/
+	//io.graphParser(g);
+
+	//return g;	
 }
 
 // -------------------------------------------------------------------

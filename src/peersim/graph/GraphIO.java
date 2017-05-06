@@ -19,13 +19,22 @@
 package peersim.graph;
 
 import java.util.*;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
+
 import java.io.*;
 
 /**
 * Implements static methods to load and write graphs.
 */
 public class GraphIO {
-private GraphIO() {}
+GraphIO() {}
 
 
 // ================== public static methods =========================
@@ -122,7 +131,88 @@ public static void writeGML( Graph g, PrintStream out ) {
 	out.println("]");
 }
 
+//------------------------------------------------------------------
+
+/**
+* Saves the given graph to
+* the given stream in GML format.
+*/
+public static void ourWriteGML( Graph g, PrintStream out ) {
+
+	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
+	out.println("<grpahml xmlns=\"http://graphml.graphdrawing.org/xmlns\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://graphml.graphdrawing.org/xmlns\">");
+	out.println("<graph edgedefault="+(g.directed()?"\"directed\"":"\"undirected\"")+" id=\"G\" >");
+	int j;
+	
+	for(int i=0; i<g.size(); ++i)
+		out.println("<node id=\""+i+"\"/>");
+	
+	for(int i=0; i<g.size(); ++i)
+	{
+		Iterator it=g.getNeighbours(i).iterator();
+		while(it.hasNext())
+		{
+			j = (int) it.next();
+			out.println(
+					"<edge id=\""+i+"_"+j+"\" source = \""+i+"\" target = \""+j+"\"/>");
+		}
+	}
+	out.println("</graph>");
+	out.println("</graphml>");
+}
+ // ------------------------------------------------------------------
+//--------------------------------------------------------------------
+
+public static void graphParser(Graph g){
+
+	final int n = g.size();
+	Parser parser = new Parser();
+
+	//nodes
+	for(int i=0 ; i<n ; i++){
+		parser.createNode(i);
+	}
+	//edges: Needs optimization
+	for(int i=0 ; i<n ; i++){
+		for(int j=0 ; j<n ; j++){
+			if(g.isEdge(i, j)){
+				parser.createEdge(i, j);
+			}
+		}
+	}
+	parser.saveFile();
+}
+
+
+
+
 // --------------------------------------------------------------------
+
+public Graph GraphMLReader(Graph g) {  
+	try {    
+		     File fXmlFile = new File("C:\\Eclipse\\ProjetApplication\\src\\projet\\Kcoreness\\graphML.grpahml");
+             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+             Document doc = dBuilder.parse(fXmlFile);
+             doc.getDocumentElement().normalize();   
+             NodeList edgeList = doc.getElementsByTagName("edge");  
+             
+            for (int i = 0; i < edgeList.getLength(); i++) {
+                Node edge = edgeList.item(i);
+                if (edge.getNodeType() == Node.ELEMENT_NODE) {  
+				    Element eElement = (Element) edge;
+                    int s = Integer.parseInt(eElement.getAttribute("source"));
+                    int t = Integer.parseInt(eElement.getAttribute("target"));
+                    g.setEdge(s, t);
+                }
+            }
+
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+	return g;
+}
+//---------------------------------------------------------------------
 
 /**
 * Saves the given graph to

@@ -101,9 +101,7 @@ private int coreness; // the local estimate of the coreness of the node
                            currentNode.setChanged(true);
                        }
                    }
-             }
-      
-            
+             }  
     }
 
   }
@@ -114,7 +112,6 @@ private int coreness; // the local estimate of the coreness of the node
      * @param k
      * @return the largest value i such that there are at least i entries; >= than i in neighbors estimation
      */
-
   public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode,int k , Node node){
 
       Linkable link = (Linkable) node.getProtocol(linkpid);
@@ -126,11 +123,8 @@ private int coreness; // the local estimate of the coreness of the node
       }
 
       //compute how many nodes have estimated coreness >=i and store this value in array counts
-
       for (i = 0; i < estimation.size(); i++) {
-
           int neighborID=(int) link.getNeighbor(i).getID();
-
           j = (k < (int) estimation.get(neighborID)) ? k : (int) estimation.get(neighborID);
           counts[j] = counts[j] + 1;
       }
@@ -138,11 +132,9 @@ private int coreness; // the local estimate of the coreness of the node
       for (i = k; i >= 2; i--) {
           counts[i - 1] = counts[i - 1] + counts[i];
       }
-
       i=k;
 
       //Searching the largest value i such that count[i]>=i
-
       while (i > 1 && counts[i] < i) {
           i--;
       }
