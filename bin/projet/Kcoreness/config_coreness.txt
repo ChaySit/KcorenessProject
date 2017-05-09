@@ -1,6 +1,6 @@
 
 random.seed 1234567890
-simulation.cycles 3
+simulation.cycles 2
 
 control.shf Shuffle
 
@@ -23,6 +23,13 @@ include.init wire initial
 
 control.obs KcorenessObserver
 control.obs.protocol core
+control.obs.linkable lnk
+
+scontrol.dnet DynamicNetwork
+#control.dnet.add +1
+#control.dnet.minsize 4000
+#control.dnet.from 1
+#control.dnet.until 3
 
 
 

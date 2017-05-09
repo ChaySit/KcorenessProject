@@ -25,6 +25,8 @@ import java.util.*;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
+import peersim.core.Network;
+
 /**
 * Contains static methods for wiring certain kinds of graphs. The general
 * contract of all methods is that they accept any graph and add edges
@@ -173,7 +175,7 @@ public static Graph wireStar( Graph g ) {
 * @param g the graph to be wired
 * @return returns g for convenience
 */
-public static Graph wireGrid(Graph g ) {
+public static Graph wireGrid(Graph g) {
 	
 	final int n = g.size();	
 	/*// The graph on the article, to test KcorenessFunction
@@ -187,7 +189,7 @@ public static Graph wireGrid(Graph g ) {
 	g.setEdge(1,3);
 	g.setEdge(3,1);//*/
 	
-	/*// Grid graph
+	/// Grid graph
 	for (int m=0; m<Math.sqrt(n); m++){
 		if (m != Math.sqrt(n)-1){
 			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
@@ -207,10 +209,24 @@ public static Graph wireGrid(Graph g ) {
 		}		
 	}//*/
 	
+	/*SingleGraph graph = new SingleGraph("Kcoreness graph");
+    // Nodes //
+	for(int i=0;i<Network.size();i++){
+		graph.addNode("n"+i);
+	}
+	for(int i=0 ; i<n ; i++){
+		for(int j=0 ; j<n ; j++){
+			if(g.isEdge(i, j) && g.isEdge(j, i) && i<j){
+				graph.addEdge("e"+i+j,"n"+i,"n"+j);
+			}
+		}
+	}
+	graph.display();*/
+	
 	
 	// XML Output to graphML.XML file 
-    GraphIO io = new GraphIO();
-    return io.GraphMLReader(g);
+    //GraphIO io = new GraphIO();
+    //return io.GraphMLReader(g);
     // XML Output to console for testing
     //PrintStream out = null;
 	//PrintStream out = new PrintStream(System.out);
@@ -224,7 +240,7 @@ public static Graph wireGrid(Graph g ) {
 	GraphIO.ourWriteGML(g, out);*/
 	//io.graphParser(g);
 
-	//return g;	
+	return g;	
 }
 
 // -------------------------------------------------------------------
