@@ -41,7 +41,7 @@ import org.w3c.dom.NodeList;
 */
 public class GraphIO {
 	
-public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\src\\projet\\Kcoreness\\TestMercredi.graphml";
+public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph0.graphml";
 
 GraphIO() {}
 
@@ -118,8 +118,9 @@ public static void writeDOT( Graph g, PrintStream out ) {
 
 /**
 * Saves the given graph to
-* the given stream in GML format.
+* the given stream in GML format.	
 */
+
 public static void writeGML( Graph g, PrintStream out ) {
 
 	out.println("graph [ directed "+(g.directed()?"1":"0"));
@@ -146,6 +147,8 @@ public static void writeGML( Graph g, PrintStream out ) {
 * Saves the given graph to
 * the given stream in GML format.
 */
+
+/*
 public static void ourWriteGML( Graph g, PrintStream out ) {
 	
 	int j;
@@ -169,14 +172,18 @@ public static void ourWriteGML( Graph g, PrintStream out ) {
 	}
 	out.println("</graph>");
 	out.println("</graphml>");
-}
+}*/
 
 //--------------------------------------------------------------------
 
 /**
 * Saves the given graph to
 * the given stream in GML format.
+* 
+* We don't need it anymore. see KcorenessGraphmlObserver
 */
+
+/*
 public static void graphParser(Graph g){
 
 	final int n = g.size();
@@ -198,40 +205,7 @@ public static void graphParser(Graph g){
 		}
 	}
 	parser.saveFile();
-}
-
-//--------------------------------------------------------------------
-
-/**
-* Saves the given graph to the given stream in GML format.
-* node element contains ID and Core as attributes.
-*/
-public static void graphParserWithCoreness(Graph g){
-
-	final int n = g.size();
-	
-	Parser parser = new Parser();
-	parser.createFile();
-	
-	int core = 0;
-
-	//nodes
-	for(int i=0 ; i<n ; i++){  
-		//core = g.getNode(i).getAttribute("kcore");
-		//TODO Get node coreness
-		parser.createNode(i, core);
-	}
-	//edges:
-	for(int i=0; i<g.size(); ++i)
-	{
-		Iterator it=g.getNeighbours(i).iterator();
-		while(it.hasNext())
-		{
-			parser.createEdge(i, (int) it.next());
-		}
-	}
-	parser.saveFile();
-}
+}*/
 
 //--------------------------------------------------------------------
 
