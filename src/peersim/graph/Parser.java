@@ -106,7 +106,7 @@ public class Parser {
 			
 			// set attribute ID to key element
 			Attr keyID = doc.createAttribute("id");
-			keyID.setValue("c");
+			keyID.setValue("k");
 			keyCore.setAttributeNode(keyID);
 			
 			// set attribute for to key element
@@ -170,7 +170,7 @@ public class Parser {
 		Element data = doc.createElement("data");
 		
 		Attr key = doc.createAttribute("key");
-		key.setValue("c");
+		key.setValue("k");
 		data.setAttributeNode(key);
 		
 		data.setTextContent(""+core);
