@@ -52,21 +52,20 @@ public class KcorenessImporter implements Control {
            for (int i = 0; i < edgeList.getLength(); i++) {
         	   org.w3c.dom.Node edge = edgeList.item(i);
                if (edge.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {  
-				    Element eElement = (Element) edge;
+				   Element eElement = (Element) edge;
                    int s = Integer.parseInt(eElement.getAttribute("source"));
                    int t = Integer.parseInt(eElement.getAttribute("target"));
                    
                    /*
-                    * TODO create nodes/edges
-                   KcorenessFunction protocol = (KcorenessFunction) Network.get(i).getProtocol(pid);
-                   Linkable linkable = (Linkable) Network.get(i).getProtocol(linkpid);
+                    * TODO test
+                    */
+                   KcorenessFunction protocol = (KcorenessFunction) Network.get(s).getProtocol(pid);
+                   Linkable linkable = (Linkable) Network.get(s).getProtocol(linkpid);
                    protocol.setChanged(false);
                    protocol.setCoreness(linkable.degree());
-                   for (int j=0; j<linkable.degree(); j++){
-                       Node peer = linkable.getNeighbor(j);
-                       protocol.newEntry(peer);
-                     
-                   }*/
+                   Node peer = linkable.getNeighbor(t);
+                   protocol.newEntry(peer);
+                   
                }
            }
 
