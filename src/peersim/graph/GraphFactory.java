@@ -25,6 +25,8 @@ import java.util.*;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
+import peersim.core.Network;
+
 /**
 * Contains static methods for wiring certain kinds of graphs. The general
 * contract of all methods is that they accept any graph and add edges
@@ -173,7 +175,7 @@ public static Graph wireStar( Graph g ) {
 * @param g the graph to be wired
 * @return returns g for convenience
 */
-public static Graph wireGrid(Graph g ) {
+public static Graph wireGrid(Graph g) {
 	
 	final int n = g.size();	
 	/*// The graph on the article, to test KcorenessFunction
@@ -187,30 +189,52 @@ public static Graph wireGrid(Graph g ) {
 	g.setEdge(1,3);
 	g.setEdge(3,1);//*/
 	
-	/*// Grid graph
+	/// Grid graph ///
+	//FOR m taking values from 0 to the number of lines on the grid 
 	for (int m=0; m<Math.sqrt(n); m++){
+		//IF ( m is not the index of the last line)
 		if (m != Math.sqrt(n)-1){
+			//FOR i taking values from the index of the first element on line m to the index of the last one
 			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
+				//IF (i is not the last element on line m) 
 			    if (i != (m+1)*n/Math.sqrt(n)-1){
+			    	//create an edge between each node and its successor on the same line
 			    	g.setEdge(i,i+1);
 			    	g.setEdge(i+1,i);
 			    }
+			    //create an edge between the node and the element which occupies its position on the following line 
 			    g.setEdge(i,(int) (i+Math.sqrt(n)));
 			    g.setEdge((int) (i+Math.sqrt(n)),i);   	
 		    }
 		}
 		else {
+			//FOR i taking values from the index of the first element of the last line to the size of the Network - 1) 
 			for(int i=(int) ((Math.sqrt(n)-1)*n/Math.sqrt(n)); i<n-1; ++i) {
+				//create an edge between each node and its successor on the same line
 				g.setEdge(i,i+1);
 		    	g.setEdge(i+1,i);
 		    }
 		}		
 	}//*/
 	
+	/*SingleGraph graph = new SingleGraph("Kcoreness graph");
+    // Nodes //
+	for(int i=0;i<Network.size();i++){
+		graph.addNode("n"+i);
+	}
+	for(int i=0 ; i<n ; i++){
+		for(int j=0 ; j<n ; j++){
+			if(g.isEdge(i, j) && g.isEdge(j, i) && i<j){
+				graph.addEdge("e"+i+j,"n"+i,"n"+j);
+			}
+		}
+	}
+	graph.display();*/
+	
 	
 	// XML Output to graphML.XML file 
-    GraphIO io = new GraphIO();
-    return io.GraphMLReader(g);
+    //GraphIO io = new GraphIO();
+    //return io.GraphMLReader(g);
     // XML Output to console for testing
     //PrintStream out = null;
 	//PrintStream out = new PrintStream(System.out);
@@ -224,7 +248,7 @@ public static Graph wireGrid(Graph g ) {
 	GraphIO.ourWriteGML(g, out);*/
 	//io.graphParser(g);
 
-	//return g;	
+	return g;	
 }
 
 // -------------------------------------------------------------------
