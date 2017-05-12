@@ -217,20 +217,6 @@ public static Graph wireGrid(Graph g) {
 		}		
 	}//*/
 	
-	/*SingleGraph graph = new SingleGraph("Kcoreness graph");
-    // Nodes //
-	for(int i=0;i<Network.size();i++){
-		graph.addNode("n"+i);
-	}
-	for(int i=0 ; i<n ; i++){
-		for(int j=0 ; j<n ; j++){
-			if(g.isEdge(i, j) && g.isEdge(j, i) && i<j){
-				graph.addEdge("e"+i+j,"n"+i,"n"+j);
-			}
-		}
-	}
-	graph.display();*/
-	
 	
 	// XML Output to graphML.XML file 
     //GraphIO io = new GraphIO();

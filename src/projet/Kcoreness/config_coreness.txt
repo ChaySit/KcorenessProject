@@ -1,15 +1,23 @@
-
+#Seed is used in order to replicate the experiment result based on a pseudo random behaviour
 random.seed 1234567890
+
+#Number of cycle
 simulation.cycles 4
 
+#Nodes will be visited in a shuffle order
 control.shf Shuffle
 
+#Number of nodes
 network.size 25
+
+################### Protocols used ###################
 
 protocol.lnk NeighborsProtocol
 
 protocol.core KcorenessFunction
 protocol.core.linkable lnk
+
+################### Initializers ###################
 
 init.wire WireGrid
 init.wire.protocol lnk
@@ -18,8 +26,9 @@ init.initial KcorenessInitializer
 init.initial.protocol core
 init.initial.linkable lnk
 
-
 include.init wire initial
+
+################### Controls ######################
 
 control.obs KcorenessObserver
 control.obs.protocol core
