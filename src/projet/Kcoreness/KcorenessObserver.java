@@ -32,6 +32,18 @@ public class KcorenessObserver implements Control{
 		pid = Configuration.getPid(prefix + "."+PAR_PROT);
 		linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
 	}
+		
+	/* StyleSheet (CSS for GraphStream) */ 
+    protected String styleSheet =
+            "node.kcore2 {" +
+            "	fill-color: green;" +
+            "}" +
+            "node.kcore3 {" +
+            "	fill-color: red;" +
+            "}"+
+            "node.kcore4 {" +
+            "	fill-color: blue;" +
+            "}";
 
 
 	/** 
@@ -75,12 +87,25 @@ public class KcorenessObserver implements Control{
 			n.setAttribute("NeighborsCoreness",currentNode.getEstimation());
 
 			// Graphic display without coreness neighbors
-			n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+			if (currentNode.getCoreness() == 2) {
+				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+				n.setAttribute("ui.class", "kcore2"); // make the node appear as important.
+			}
+			if(currentNode.getCoreness() == 3) {
+				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+				n.setAttribute("ui.class", "kcore3");
+			}
+			if(currentNode.getCoreness() == 4) {
+				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+				n.setAttribute("ui.class", "kcore4");
+			}
+			
 
 			// Graphic display with coreness neighbors 
 			//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
 		}
 
+		graph.addAttribute("ui.stylesheet", styleSheet);
 		graph.display();	
 		return false;
 	}
