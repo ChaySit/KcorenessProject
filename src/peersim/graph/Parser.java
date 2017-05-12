@@ -15,14 +15,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class Parser {
-	
+	public static final String GRAPHML_WRITING_PATH = "D:\\Workspace\\peerSim\\src\\projet\\Kcoreness\\TestMercredi.graphml";
+			
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
 	private Element rootElement;
 	private Element graph;
 	
-	public Parser(){
+	public void createFile(){
 
 		  try {
 			  
@@ -80,6 +81,21 @@ public class Parser {
 	}
 	
 	
+	public void createNode(int i,int core){
+		Element node = doc.createElement("node");
+		
+		Attr nodeID = doc.createAttribute("id");
+		nodeID.setValue(""+i);
+		node.setAttributeNode(nodeID);
+		
+		Attr nodeCore = doc.createAttribute("core");
+		nodeCore.setValue(""+i);
+		node.setAttributeNode(nodeCore);		
+		
+		graph.appendChild(node);	
+	}
+	
+	
 	public void createEdge(int i, int j){
 		
     	Element edge = doc.createElement("edge");
@@ -107,7 +123,7 @@ public class Parser {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Eclipse\\ProjetApplication\\src\\projet\\Kcoreness\\graphML.grpahml"));
+			StreamResult result = new StreamResult(new File(GRAPHML_WRITING_PATH));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
