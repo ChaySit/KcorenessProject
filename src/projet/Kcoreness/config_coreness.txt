@@ -21,7 +21,7 @@ init.initial.linkable lnk
 
 include.init wire initial
 
-control.obs KcorenessObserver
+control.obs KcorenessGraphmlObserver
 control.obs.protocol core
 control.obs.linkable lnk
 
