@@ -81,7 +81,7 @@ public class KcorenessObserver implements Control{
 			//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
 		}
 
-		graph.display();	
+
 		return false;
 	}
 }
