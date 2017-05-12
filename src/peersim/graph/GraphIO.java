@@ -18,22 +18,31 @@
 		
 package peersim.graph;
 
-import java.util.*;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.BitSet;
+import java.util.Iterator;
 
-import java.io.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+
 
 /**
 * Implements static methods to load and write graphs.
 */
 public class GraphIO {
+	
+public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\src\\projet\\Kcoreness\\TestMercredi.graphml";
+
 GraphIO() {}
 
 
@@ -138,11 +147,12 @@ public static void writeGML( Graph g, PrintStream out ) {
 * the given stream in GML format.
 */
 public static void ourWriteGML( Graph g, PrintStream out ) {
-
+	
+	int j;
+	
 	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
 	out.println("<grpahml xmlns=\"http://graphml.graphdrawing.org/xmlns\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://graphml.graphdrawing.org/xmlns\">");
 	out.println("<graph edgedefault="+(g.directed()?"\"directed\"":"\"undirected\"")+" id=\"G\" >");
-	int j;
 	
 	for(int i=0; i<g.size(); ++i)
 		out.println("<node id=\""+i+"\"/>");
@@ -160,14 +170,77 @@ public static void ourWriteGML( Graph g, PrintStream out ) {
 	out.println("</graph>");
 	out.println("</graphml>");
 }
- // ------------------------------------------------------------------
+
 //--------------------------------------------------------------------
 
+/**
+* Saves the given graph to
+* the given stream in GML format.
+*/
+public static void graphParser(Graph g){
+
+	final int n = g.size();
+	
+	Parser parser = new Parser();
+	parser.createFile();
+	
+	//nodes
+	for(int i=0 ; i<n ; i++){
+		parser.createNode(i);
+	}
+	//edges:
+	for(int i=0; i<g.size(); ++i)
+	{
+		Iterator it=g.getNeighbours(i).iterator();
+		while(it.hasNext())
+		{
+			parser.createEdge(i, (int) it.next());
+		}
+	}
+	parser.saveFile();
+}
+
+//--------------------------------------------------------------------
+
+/**
+* Saves the given graph to the given stream in GML format.
+* node element contains ID and Core as attributes.
+*/
+public static void graphParserWithCoreness(Graph g){
+
+	final int n = g.size();
+	
+	Parser parser = new Parser();
+	parser.createFile();
+	
+	int core = 0;
+
+	//nodes
+	for(int i=0 ; i<n ; i++){  
+		//core = g.getNode(i).getAttribute("kcore");
+		//TODO Get node coreness
+		parser.createNode(i, core);
+	}
+	//edges:
+	for(int i=0; i<g.size(); ++i)
+	{
+		Iterator it=g.getNeighbours(i).iterator();
+		while(it.hasNext())
+		{
+			parser.createEdge(i, (int) it.next());
+		}
+	}
+	parser.saveFile();
+}
+
+//--------------------------------------------------------------------
+
+/*
 public static void graphParser(Graph g){
 
 	final int n = g.size();
 	Parser parser = new Parser();
-
+	parser.createFile();
 	//nodes
 	for(int i=0 ; i<n ; i++){
 		parser.createNode(i);
@@ -182,18 +255,22 @@ public static void graphParser(Graph g){
 	}
 	parser.saveFile();
 }
-
-
-
+*/
 
 // --------------------------------------------------------------------
 
+/**
+ * Modify the given graph g to
+ * the given graphml format.
+ */
+
 public Graph GraphMLReader(Graph g) {  
 	try {    
-		     File fXmlFile = new File("C:\\Eclipse\\ProjetApplication\\src\\projet\\Kcoreness\\graphML.grpahml");
+		     File fXmlFile = new File(GRAPHML_READING_PATH);
              DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
              DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
              Document doc = dBuilder.parse(fXmlFile);
+             
              doc.getDocumentElement().normalize();   
              NodeList edgeList = doc.getElementsByTagName("edge");  
              
@@ -209,9 +286,10 @@ public Graph GraphMLReader(Graph g) {
 
         } catch (Exception e) {
                 e.printStackTrace();
-        }
+        }	
 	return g;
 }
+
 //---------------------------------------------------------------------
 
 /**
