@@ -189,20 +189,28 @@ public static Graph wireGrid(Graph g) {
 	g.setEdge(1,3);
 	g.setEdge(3,1);//*/
 	
-	/// Grid graph
+	/// Grid graph ///
+	//FOR m taking values from 0 to the number of lines on the grid 
 	for (int m=0; m<Math.sqrt(n); m++){
+		//IF ( m is not the index of the last line)
 		if (m != Math.sqrt(n)-1){
+			//FOR i taking values from the index of the first element on line m to the index of the last one
 			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
+				//IF (i is not the last element on line m) 
 			    if (i != (m+1)*n/Math.sqrt(n)-1){
+			    	//create an edge between each node and its successor on the same line
 			    	g.setEdge(i,i+1);
 			    	g.setEdge(i+1,i);
 			    }
+			    //create an edge between the node and the element which occupies its position on the following line 
 			    g.setEdge(i,(int) (i+Math.sqrt(n)));
 			    g.setEdge((int) (i+Math.sqrt(n)),i);   	
 		    }
 		}
 		else {
+			//FOR i taking values from the index of the first element of the last line to the size of the Network - 1) 
 			for(int i=(int) ((Math.sqrt(n)-1)*n/Math.sqrt(n)); i<n-1; ++i) {
+				//create an edge between each node and its successor on the same line
 				g.setEdge(i,i+1);
 		    	g.setEdge(i+1,i);
 		    }

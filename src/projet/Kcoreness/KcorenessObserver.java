@@ -42,24 +42,25 @@ public class KcorenessObserver implements Control{
 
 		// Construction of graphStream graph 	
 		SingleGraph graph = new SingleGraph("Kcoreness graph");
+
 		// Nodes
 		for(int i=0; i<Network.size(); i++){
 			graph.addNode("n"+i);
 		}
+
+
 		for (int i=0; i< Network.size(); i++){
 
-			Node peer = Network.get(i);
+			Node peer = Network.get(i); //Network.get(index)
 			KcorenessFunction currentNode = (KcorenessFunction) peer.getProtocol(pid);
 			Linkable link = (Linkable) peer.getProtocol(linkpid);
+			int currentNodeID = (int) peer.getID();
 
 			/// Edges
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
-					int k=(int) peer.getID();
-					int l=(int) link.getNeighbor(j).getID();
-					if (k<l){
-						graph.addEdge("e"+k+l,"n"+k,"n"+l);
-					}
+					int neighborID = (int) link.getNeighbor(j).getID();
+					graph.addEdge("e"+currentNodeID+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
 				}	
 			}//*/
 
@@ -68,7 +69,7 @@ public class KcorenessObserver implements Control{
 			System.out.println("the estimation of its neighbors coreness " + currentNode.getEstimation());
 
 			// Storing the kcore of each node on the node of the graphStream graph
-			SingleNode n = graph.getNode("n"+i);
+			SingleNode n = graph.getNode("n"+currentNodeID);
 			n.setAttribute("kcore",currentNode.getCoreness());
 			n.setAttribute("ID",peer.getID());
 			n.setAttribute("NeighborsCoreness",currentNode.getEstimation());
