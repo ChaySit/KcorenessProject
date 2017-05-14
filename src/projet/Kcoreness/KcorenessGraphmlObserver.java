@@ -17,14 +17,19 @@ import org.graphstream.graph.implementations.*;
  *  A controller that gets the Kcore of each node and its neighbors
  **/
 public class KcorenessGraphmlObserver implements Control{
-
+	
+	public static final String GRAPHML_WRITING_PATH = "D:\\Workspace\\peerSim\\graphs\\";
+	
 	/* Parameters for Linkable protocol identifier */
 	private static final String PAR_PROT = "protocol";
 	private static final String LINKABLE_PROT = "linkable";
+	
 
 	/* Protocol identifiers : obtained from config property {@link #PAR_PROT} */
 	private static int pid;
 	private static int linkpid;
+	
+	private static Parser parser;
 	private static int cycle = 0;
 
 	/* Constructor */
@@ -32,6 +37,10 @@ public class KcorenessGraphmlObserver implements Control{
 		// get identifiers of linkable protocol 
 		pid = Configuration.getPid(prefix + "."+PAR_PROT);
 		linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
+	
+		parser = new Parser();
+		parser.setPath(GRAPHML_WRITING_PATH);
+		
 	}
 
 
@@ -41,9 +50,8 @@ public class KcorenessGraphmlObserver implements Control{
 	@Override
 	public boolean execute() {
 		
-		Parser parser = new Parser();
+		//Creating new file
 		parser.createFile(cycle);
-
 
 		//nodes
 		for(int i=0 ; i<Network.size(); i++){  

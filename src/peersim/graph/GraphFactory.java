@@ -220,7 +220,7 @@ public static Graph wireGrid(Graph g) {
 	
 	// XML Output to graphML.XML file 
     //GraphIO io = new GraphIO();
-    //return io.GraphMLReader(g);
+    //return io.graphMLReader(g);
     // XML Output to console for testing
     //PrintStream out = null;
 	//PrintStream out = new PrintStream(System.out);

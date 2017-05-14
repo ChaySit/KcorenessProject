@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class Parser {
-	public static final String GRAPHML_WRITING_PATH = "D:\\Workspace\\peerSim\\graphs\\";
+
 			
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
@@ -23,6 +23,12 @@ public class Parser {
 	private Element rootElement;
 	private Element graph;
 	
+	private String path;
+	
+	
+	public void setPath(String path){
+		this.path = path;
+	}
 	public void createFile(){
 
 		  try {
@@ -209,7 +215,7 @@ public class Parser {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(GRAPHML_WRITING_PATH));
+			StreamResult result = new StreamResult(new File(path));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
@@ -229,7 +235,7 @@ public class Parser {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(GRAPHML_WRITING_PATH+"graph"+cycle+".graphml"));
+			StreamResult result = new StreamResult(new File(path+"graph"+cycle+".graphml"));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
@@ -242,4 +248,5 @@ public class Parser {
 			tfe.printStackTrace();
 		}
 	}
+
 }

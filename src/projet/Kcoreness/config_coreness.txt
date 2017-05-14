@@ -8,7 +8,8 @@ simulation.cycles 4
 control.shf Shuffle
 
 #Number of nodes
-network.size 25
+network.size 100
+
 
 ################### Protocols used ###################
 
@@ -19,7 +20,9 @@ protocol.core.linkable lnk
 
 ################### Initializers ###################
 
-init.wire WireGrid
+#To load a graph toplogy from graphml
+init.wire WireImporter
+#init.wire WireGrid
 init.wire.protocol lnk
 
 init.initial KcorenessInitializer
@@ -31,6 +34,7 @@ include.init wire initial
 
 ################### Controls ######################
 
+#To save results as graphml
 #control.obs KcorenessGraphmlObserver
 control.obs KcorenessObserver
 control.obs.protocol core

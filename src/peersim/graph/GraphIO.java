@@ -238,7 +238,7 @@ public static void graphParser(Graph g){
  * the given graphml format.
  */
 
-public Graph GraphMLReader(Graph g) {  
+public static void graphMLReader(Graph g) {  
 	try {    
 		     File fXmlFile = new File(GRAPHML_READING_PATH);
              DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -261,7 +261,6 @@ public Graph GraphMLReader(Graph g) {
         } catch (Exception e) {
                 e.printStackTrace();
         }	
-	return g;
 }
 
 //---------------------------------------------------------------------
