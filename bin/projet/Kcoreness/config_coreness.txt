@@ -8,8 +8,7 @@ simulation.cycles 4
 control.shf Shuffle
 
 #Number of nodes
-network.size 64
-
+network.size 100
 
 ################### Protocols used ###################
 
@@ -44,11 +43,9 @@ control.obs KcorenessObserver
 control.obs.protocol core
 control.obs.linkable lnk
 
+
 #control.dnet DynamicNetwork
 #control.dnet.add +1
 #control.dnet.minsize 4000
 #control.dnet.from 1
 #control.dnet.until 3
-
-
-
