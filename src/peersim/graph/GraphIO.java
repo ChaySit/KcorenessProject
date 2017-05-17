@@ -41,7 +41,7 @@ import org.w3c.dom.NodeList;
 */
 public class GraphIO {
 	
-public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph0.graphml";
+public static final String GRAPHML_READING_PATH = "/home/kfennine/ProjetApplication/graphs/graph1.graphml";
 
 GraphIO() {}
 

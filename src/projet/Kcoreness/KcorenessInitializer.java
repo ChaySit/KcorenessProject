@@ -32,8 +32,7 @@ public class KcorenessInitializer implements Control {
             protocol.setChanged(false);
             protocol.setCoreness(linkable.degree());
             for (int j=0; j<linkable.degree(); j++){
-                Node peer = linkable.getNeighbor(j);
-                protocol.newEntry(peer);
+                protocol.newEntry(linkable.getNeighbor(j));
             }
         }
         return false;
