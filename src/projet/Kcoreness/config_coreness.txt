@@ -8,8 +8,7 @@ simulation.cycles 4
 control.shf Shuffle
 
 #Number of nodes
-network.size 25
-
+network.size 100
 
 ################### Protocols used ###################
 
@@ -20,8 +19,10 @@ protocol.core.linkable lnk
 
 ################### Initializers ###################
 
-#To load a graph toplogy from graphml
+### To load a graph toplogy from graphml
+### To use it change GRAPHML_READING_PATH in peersim.graph.GraphIO first 
 #init.wire WireImporter
+
 init.wire WireGrid
 init.wire.protocol lnk
 
@@ -34,19 +35,17 @@ include.init wire initial
 
 ################### Controls ######################
 
-#To save results as graphml
+### To save results as graphml 
+### To use it change GRAPHML_WRITING_PATH in projet.Kcoreness.KcorenessGraphmlObserver first
 #control.obs KcorenessGraphmlObserver
+
 control.obs KcorenessObserver
 control.obs.protocol core
 control.obs.linkable lnk
 
-control.dnet Dynamics
-control.dnet.add 1
-control.dnet.protocol core
-control.dnet.linkable lnk
+
+#control.dnet DynamicNetwork
+#control.dnet.add +1
 #control.dnet.minsize 4000
 #control.dnet.from 1
 #control.dnet.until 3
-
-
-

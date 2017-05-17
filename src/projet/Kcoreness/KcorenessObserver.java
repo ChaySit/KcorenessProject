@@ -72,7 +72,7 @@ public class KcorenessObserver implements Control{
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
-					graph.addEdge("e"+currentNodeID+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
+					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
 				}	
 			}//*/
 
