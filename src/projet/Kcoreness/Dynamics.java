@@ -98,24 +98,65 @@ public class Dynamics implements Control{
     }
 
 
-    /* * Removes a node given a given node ID
-		 *
-		 * */
+    public void removebyIndex(int i){
+
+        Network.swap(i, Network.size()-1);
+        Network.remove();
+
+    }
+
+	/*
+	 * Removes a node given a given node ID
+	 * @Returns 0 if removed 1 otherwise
+	 * */
 
     public void removebyID(int ID){
-        int	 i = Network.size()-1;
+
+        int	 i = 0;
         int	Id = Integer.MIN_VALUE;
+        KcorenessFunction neighboor = null;
+        Linkable link =  null ;
 
-        while(i>=0 && Id!=ID){
+        while(i<Network.size() && Id!=ID){
             Id = (int)Network.get(i).getID();
-
+            i++;
         }
 
-        if(Id!=Integer.MIN_VALUE){
-            Network.remove(i);
+        if(Id==ID){
+
+            link = (Linkable) Network.get(Id).getProtocol(linkpid);
+            for(int j=0 ;j<link.degree();j++){
+                neighboor = (KcorenessFunction)link.getNeighbor(j).getProtocol(pid);
+                neighboor.getEstimation().remove(Id);
+            }
+            Network.remove(Id);
+
+
 
         }
+    }
 
+	/*
+	 * Removes a given layer based on a particular coreness value
+	 * @Returns number of removed nodes
+	 * */
+
+    public int removeCorenessLayer(int corenessValue){
+
+        Node node = (Node) Network.prototype.clone();
+        KcorenessFunction protocol ;
+        int nbRemoved = 0;
+
+        for(int i=0;i<Network.size();i++){
+
+            protocol = (KcorenessFunction) Network.get(i).getProtocol(pid);
+            if(protocol.getCoreness()==corenessValue){
+                removebyID((int)Network.get(i).getID());
+                nbRemoved++;
+            }
+        }
+
+        return nbRemoved;
 
     }
 
@@ -123,9 +164,10 @@ public class Dynamics implements Control{
     @Override
     public boolean execute() {
 
-        if (add == 0)
+       /* if (add == 0)
             return false;
-        add(add);
+        add(add);*/
+        removeCorenessLayer(4);
 
         return false;
 

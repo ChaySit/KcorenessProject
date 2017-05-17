@@ -68,7 +68,7 @@ public class KcorenessObserver implements Control{
 			Linkable link = (Linkable) peer.getProtocol(linkpid);
 			int currentNodeID = (int) peer.getID();
 
-			/// Edges
+			/*// Edges
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
@@ -107,8 +107,8 @@ public class KcorenessObserver implements Control{
 			//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
 		}
 
-		graph.addAttribute("ui.stylesheet", styleSheet);
-		graph.display();	
+		//graph.addAttribute("ui.stylesheet", styleSheet);
+		//graph.display();
 		return false;
 	}
 }
