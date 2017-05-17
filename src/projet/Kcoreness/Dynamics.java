@@ -5,13 +5,13 @@ import peersim.core.Control;
 import peersim.core.Linkable;
 import peersim.core.Network;
 import peersim.core.Node;
-import peersim.dynamics.NodeInitializer;
+
 
 
 /**
  * Created by root on 5/12/17.
  */
-public class Dynamics implements Control, NodeInitializer {
+public class Dynamics implements Control{
 
     /**
     * Specifies the number of nodes to add  **/
@@ -41,11 +41,14 @@ public class Dynamics implements Control, NodeInitializer {
 
     private static final String PAR_MIN = "minsize";
 
+
+
     //Fields
 
     private static int pid;
     private static int linkpid;
     private final int add;
+    private final NewNodeInitializer init;
    /* private final double remove;
     private final int minsize;
     private final int maxsize;*/
@@ -55,16 +58,14 @@ public class Dynamics implements Control, NodeInitializer {
         pid = Configuration.getPid(prefix + "."+PAR_PROT);
         linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
         add = Configuration.getInt(prefix + "." + PAR_ADD);
+        init = new NewNodeInitializer("newnode");
         //remove = Configuration.getDouble(prefix + "." + PAR_REMOVE);
        // minsize = Configuration.getInt(prefix + "." + PAR_MIN, Integer.MAX_VALUE);
         //maxsize = Configuration.getInt(prefix + "." + PAR_MIN, 0);
 
     }
 
-    @Override
-    public void initialize(Node n) {
 
-    }
 
     public void add(int n) {
 
@@ -72,16 +73,24 @@ public class Dynamics implements Control, NodeInitializer {
 
             Node node = (Node) Network.prototype.clone();
             Network.add(node);
-            KcorenessFunction newNode = (KcorenessFunction) node.getProtocol(pid);
+            init.initialize(node);
+
             Linkable linkable = (Linkable) node.getProtocol(linkpid);
 
-            newNode.setChanged(false);
-            newNode.setCoreness(linkable.degree());
-            for (int j = 0; j < linkable.degree(); j++) {
+            System.out.println(Network.size());
+
+            KcorenessFunction newNode = (KcorenessFunction) node.getProtocol(pid);
+
+            for (int j=0; j<init.degree; j++)
+            {
+                linkable.addNeighbor(Network.get(j));
                 newNode.newEntry(linkable.getNeighbor(j));
+
             }
+
+
            // ( (Linkable) Network.get(Network.size()-1)).addNeighbor(node);
-            linkable.addNeighbor(node);
+            //linkable.addNeighbor(node);
 
 
         }
@@ -117,10 +126,6 @@ public class Dynamics implements Control, NodeInitializer {
         if (add == 0)
             return false;
         add(add);
-
-
-
-
 
         return false;
 
