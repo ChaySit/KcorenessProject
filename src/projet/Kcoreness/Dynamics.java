@@ -5,12 +5,13 @@ import peersim.core.Control;
 import peersim.core.Linkable;
 import peersim.core.Network;
 import peersim.core.Node;
+import peersim.dynamics.NodeInitializer;
 
 
 /**
  * Created by root on 5/12/17.
  */
-public class Dynamics implements Control {
+public class Dynamics implements Control, NodeInitializer {
 
     /**
     * Specifies the number of nodes to add  **/
@@ -60,6 +61,10 @@ public class Dynamics implements Control {
 
     }
 
+    @Override
+    public void initialize(Node n) {
+
+    }
 
     public void add(int n) {
 
