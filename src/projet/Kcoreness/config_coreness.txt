@@ -2,13 +2,13 @@
 random.seed 1234567890
 
 #Number of cycle
-simulation.cycles 4
+simulation.cycles 5
 
 #Nodes will be visited in a shuffle order
 control.shf Shuffle
 
 #Number of nodes
-network.size 100
+network.size 9
 
 ################### Protocols used ###################
 
@@ -44,8 +44,8 @@ control.obs.protocol core
 control.obs.linkable lnk
 
 
-#control.dnet DynamicNetwork
-#control.dnet.add +1
+control.dnet DynamicNetwork
+control.dnet.add +1
 #control.dnet.minsize 4000
-#control.dnet.from 1
-#control.dnet.until 3
+control.dnet.from 1
+control.dnet.until 3

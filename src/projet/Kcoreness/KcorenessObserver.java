@@ -99,7 +99,9 @@ public class KcorenessObserver implements Control{
 				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
 				n.setAttribute("ui.class", "kcore4");
 			}
-			
+			else {
+				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+			}
 
 			// Graphic display with coreness neighbors 
 			//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
