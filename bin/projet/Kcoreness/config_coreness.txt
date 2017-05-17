@@ -44,8 +44,10 @@ control.obs.protocol core
 control.obs.linkable lnk
 
 
-#control.dnet DynamicNetwork
-#control.dnet.add +1
+control.dnet Dynamics
+control.dnet.protocol core
+control.dnet.linkable lnk
+control.dnet.add 1
 #control.dnet.minsize 4000
 #control.dnet.from 1
 #control.dnet.until 3

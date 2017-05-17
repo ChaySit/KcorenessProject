@@ -66,6 +66,7 @@ public class Dynamics implements Control {
         for (int i=0; i<n; i++) {
 
             Node node = (Node) Network.prototype.clone();
+            Network.add(node);
             KcorenessFunction newNode = (KcorenessFunction) node.getProtocol(pid);
             Linkable linkable = (Linkable) node.getProtocol(linkpid);
 
@@ -74,9 +75,33 @@ public class Dynamics implements Control {
             for (int j = 0; j < linkable.degree(); j++) {
                 newNode.newEntry(linkable.getNeighbor(j));
             }
-            Network.add((Node) newNode);
+           // ( (Linkable) Network.get(Network.size()-1)).addNeighbor(node);
+            linkable.addNeighbor(node);
+
 
         }
+
+    }
+
+
+    /* * Removes a node given a given node ID
+		 *
+		 * */
+
+    public void removebyID(int ID){
+        int	 i = Network.size()-1;
+        int	Id = Integer.MIN_VALUE;
+
+        while(i>=0 && Id!=ID){
+            Id = (int)Network.get(i).getID();
+
+        }
+
+        if(Id!=Integer.MIN_VALUE){
+            Network.remove(i);
+
+        }
+
 
     }
 
@@ -87,6 +112,9 @@ public class Dynamics implements Control {
         if (add == 0)
             return false;
         add(add);
+
+
+
 
 
         return false;
