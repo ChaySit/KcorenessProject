@@ -41,7 +41,7 @@ import org.w3c.dom.NodeList;
 */
 public class GraphIO {
 	
-public static final String GRAPHML_READING_PATH = "/home/kfennine/ProjetApplication/graphs/graph1.graphml";
+public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph3.graphml";
 
 GraphIO() {}
 
@@ -142,96 +142,6 @@ public static void writeGML( Graph g, PrintStream out ) {
 }
 
 //------------------------------------------------------------------
-
-/**
-* Saves the given graph to
-* the given stream in GML format.
-*/
-
-/*
-public static void ourWriteGML( Graph g, PrintStream out ) {
-	
-	int j;
-	
-	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-	out.println("<grpahml xmlns=\"http://graphml.graphdrawing.org/xmlns\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://graphml.graphdrawing.org/xmlns\">");
-	out.println("<graph edgedefault="+(g.directed()?"\"directed\"":"\"undirected\"")+" id=\"G\" >");
-	
-	for(int i=0; i<g.size(); ++i)
-		out.println("<node id=\""+i+"\"/>");
-	
-	for(int i=0; i<g.size(); ++i)
-	{
-		Iterator it=g.getNeighbours(i).iterator();
-		while(it.hasNext())
-		{
-			j = (int) it.next();
-			out.println(
-					"<edge id=\""+i+"_"+j+"\" source = \""+i+"\" target = \""+j+"\"/>");
-		}
-	}
-	out.println("</graph>");
-	out.println("</graphml>");
-}*/
-
-//--------------------------------------------------------------------
-
-/**
-* Saves the given graph to
-* the given stream in GML format.
-* 
-* We don't need it anymore. see KcorenessGraphmlObserver
-*/
-
-/*
-public static void graphParser(Graph g){
-
-	final int n = g.size();
-	
-	Parser parser = new Parser();
-	parser.createFile();
-	
-	//nodes
-	for(int i=0 ; i<n ; i++){
-		parser.createNode(i);
-	}
-	//edges:
-	for(int i=0; i<g.size(); ++i)
-	{
-		Iterator it=g.getNeighbours(i).iterator();
-		while(it.hasNext())
-		{
-			parser.createEdge(i, (int) it.next());
-		}
-	}
-	parser.saveFile();
-}*/
-
-//--------------------------------------------------------------------
-
-/*
-public static void graphParser(Graph g){
-
-	final int n = g.size();
-	Parser parser = new Parser();
-	parser.createFile();
-	//nodes
-	for(int i=0 ; i<n ; i++){
-		parser.createNode(i);
-	}
-	//edges: Needs optimization
-	for(int i=0 ; i<n ; i++){
-		for(int j=0 ; j<n ; j++){
-			if(g.isEdge(i, j)){
-				parser.createEdge(i, j);
-			}
-		}
-	}
-	parser.saveFile();
-}
-*/
-
-// --------------------------------------------------------------------
 
 /**
  * Modify the given graph g to

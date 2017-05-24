@@ -29,53 +29,6 @@ public class Parser {
 	public void setPath(String path){
 		this.path = path;
 	}
-	public void createFile(){
-
-		  try {
-			  
-			this.docFactory = DocumentBuilderFactory.newInstance();
-			this.docBuilder = docFactory.newDocumentBuilder();
-
-			// root elements
-			this.doc = docBuilder.newDocument();
-			this.rootElement = doc.createElement("grpahml");
-			doc.appendChild(rootElement);
-			
-			// set attribute xmlns to root element
-			Attr xmlns = doc.createAttribute("xmlns");
-			xmlns.setValue("http://graphml.graphdrawing.org/xmlns");
-			rootElement.setAttributeNode(xmlns);
-
-			// set attribute xsi to root element
-			Attr xsi = doc.createAttribute("xmlns:xsi");
-			xsi.setValue("http://www.w3.org/2001/XMLSchema-instance");
-			rootElement.setAttributeNode(xsi);
-			
-			// set attribute schemaLocation to root element
-			Attr schemaLocation = doc.createAttribute("xsi:schemaLocation");
-			schemaLocation.setValue("http://graphml.graphdrawing.org/xmlns");
-			rootElement.setAttributeNode(schemaLocation);
-			
-			// graph elements
-			this.graph = doc.createElement("graph");
-			rootElement.appendChild(graph);
-
-			// set attribute ID to graph element
-			Attr attrID = doc.createAttribute("id");
-			attrID.setValue("G");
-			graph.setAttributeNode(attrID);
-			
-			// set attribute edgedefault to graph element
-			Attr edgedefault = doc.createAttribute("edgedefault");
-			edgedefault.setValue("undirected");
-			graph.setAttributeNode(edgedefault);
-
-
-		  } catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
-		  }
-	}
-
 	
 	public void createFile(int cycle){
 
@@ -209,25 +162,6 @@ public class Parser {
 	}
 	
 	
-	public void saveFile(){
-				
-		try {
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(path));
-
-			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
-
-			transformer.transform(source, result);
-
-			System.out.println("File saved!");
-			
-		} catch (TransformerException tfe) {
-			tfe.printStackTrace();
-		}
-	}
 	
 	public void saveFile(int cycle){
 		
