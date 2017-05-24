@@ -8,11 +8,8 @@ simulation.cycles 1
 control.shf Shuffle
 
 #Number of nodes
-<<<<<<< HEAD
 network.size 25
-=======
-network.size 4
->>>>>>> 03fdb6c797aa7e0ac577aa30c9fd08d01b069604
+
 
 #To show execution time
 __t
@@ -58,11 +55,8 @@ control.obs.linkable lnk
 
 dynamics.flag remove
 remove.by id
-<<<<<<< HEAD
 remove.parameter 12
-=======
-remove.parameter 2
->>>>>>> 03fdb6c797aa7e0ac577aa30c9fd08d01b069604
+
 
 newnode NewNodeInitializer
 newnode.protocol core

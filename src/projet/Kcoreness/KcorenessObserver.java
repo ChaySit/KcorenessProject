@@ -86,9 +86,7 @@ public class KcorenessObserver implements Control{
 			Set<Integer> set = currentNode.getEstimation().keySet();
 			System.out.println("Set"+set);
 			Object[] array = (Object[]) set.toArray();
-
 			for(int j=0; j<array.length; j++){
-				//int neighborID = (int) link.getNeighbor(j).getID();
 				int neighborID = (int) array[j];
 				graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);	
 			}//*/
