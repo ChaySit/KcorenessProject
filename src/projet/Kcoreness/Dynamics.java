@@ -1,8 +1,6 @@
 package projet.Kcoreness;
 
 import java.util.ArrayList;
-import java.util.Set;
-
 import peersim.config.Configuration;
 import peersim.core.Control;
 import peersim.core.Linkable;
@@ -39,11 +37,7 @@ public class Dynamics implements Control{
 
     private static final String PAR_MIN = "minsize";
 
-    /**
-     * Specifies the number of nodes to remove  **/
-    private static final String REMOVE_NODE  = "remove";
-       
-    
+
     /**
      * Specifies whether to add or remove a node or a layer
      * possible values : remove - add */
@@ -75,7 +69,7 @@ public class Dynamics implements Control{
     private static int removedPar = -1 ;
     private final NewNodeInitializer init;
     
-   /* private final double remove;
+   /*
     private final int minsize;
     private final int maxsize;*/
 
@@ -98,7 +92,7 @@ public class Dynamics implements Control{
         
  
         init = new NewNodeInitializer("newnode");
-        //remove = Configuration.getDouble(prefix + "." + PAR_REMOVE);
+
        // minsize = Configuration.getInt(prefix + "." + PAR_MIN, Integer.MAX_VALUE);
         //maxsize = Configuration.getInt(prefix + "." + PAR_MIN, 0);
 
@@ -148,21 +142,13 @@ public class Dynamics implements Control{
                 newNode.newEntry(linkable.getNeighbor(j));
             }
 
-            // ( (Linkable) Network.get(Network.size()-1)).addNeighbor(node);
-            //linkable.addNeighbor(node);
+
         }
 
     }
 
 
-    public void removebyIndex(int i){
-
-        Network.swap(i, Network.size()-1);
-        Network.remove();
-
-    }
-
-	/**
+    /**
 	 * Removes a node given a given node ID
 	 * @Returns 0 if removed 1 otherwise
 	 * */
@@ -171,23 +157,39 @@ public class Dynamics implements Control{
 
             int	 i = 0;
             int	Id = Integer.MIN_VALUE;
-            KcorenessFunction neighboor = null;
-            Linkable link =  null ;
+            KcorenessFunction neighboor = null ;
+            Linkable link = null ;
 
             while(i<Network.size() && Id!=ID){
-                Id = (int)Network.get(i).getID();
+                if((int)Network.get(i).getID()==ID)
+                    Id=ID;
                 i++;
             }
 
+            if (Id == Integer.MIN_VALUE)
+                return;
+            else {
 
-            if(Id==ID){
-            	link = (Linkable) Network.get(Id).getProtocol(linkpid);
-                for(int j=0 ;j<link.degree();j++){
-                    neighboor = (KcorenessFunction)link.getNeighbor(j).getProtocol(pid);
-                    neighboor.getEstimation().remove(Id);
+                for (int j=0; j<Network.size(); j++ ){
+
+                    if (Network.get(j).getID()==Id){
+
+                        link = (Linkable) Network.get(j).getProtocol(linkpid);
+
+                        for (int k=0; k<link.degree(); k++)
+                        {
+                            neighboor = (KcorenessFunction)link.getNeighbor(k).getProtocol(pid);
+                            neighboor.getEstimation().remove(Id);
+                        }
+                        removedNodesID.add(Id);
+                        Network.remove(Id);
+                    }
+
+
                 }
-                removedNodesID.add(Id);
-                Network.remove(Id);
+
+
+
  
         }
     }
