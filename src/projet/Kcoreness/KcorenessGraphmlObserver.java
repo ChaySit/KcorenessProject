@@ -9,6 +9,7 @@ import peersim.graph.Graph;
 import peersim.graph.Parser;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
@@ -53,33 +54,30 @@ public class KcorenessGraphmlObserver implements Control{
 		//Creating new file
 		parser.createFile(cycle);
 
-		//nodes
+		//Saving nodes
 		for(int i=0 ; i<Network.size(); i++){  
+
 			Node peer = Network.get(i); //Network.get(index)
 			KcorenessFunction currentNode = (KcorenessFunction) peer.getProtocol(pid);
-			Linkable link = (Linkable) peer.getProtocol(linkpid);
-			int currentNodeID = (int) peer.getID();
-
-			//Node
 			parser.createNode((int)peer.getID(), currentNode.getCoreness());
-		
 			
 		}
+		
+		//Saving edges
 		for(int i=0 ; i<Network.size(); i++){ 
 			
 			Node peer = Network.get(i);
 			KcorenessFunction currentNode = (KcorenessFunction) peer.getProtocol(pid);
-			Linkable link = (Linkable) peer.getProtocol(linkpid);
-			int currentNodeID = (int) peer.getID();
+			int currentNodeID = (int) peer.getID();	
+			Set<Integer> set = currentNode.getEstimation().keySet() ;
+			Object[] array  = (Object[]) set.toArray();
 			
-			//edges
-			if (link.degree() > 0){
-				for(int j=0; j<link.degree(); j++){
-					int neighborID = (int) link.getNeighbor(j).getID();
-					parser.createEdge(currentNodeID, neighborID);	
-				}
+			for(int j=0; j<array.length; j++){
+				int neighborID = (int) array[j];
+				parser.createEdge(currentNodeID, neighborID);	
 			}
 		}
+		//Saving file
 		parser.saveFile(cycle);
 		cycle++;
 		return false;

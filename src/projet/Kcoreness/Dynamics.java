@@ -1,5 +1,8 @@
 package projet.Kcoreness;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import peersim.config.Configuration;
 import peersim.core.Control;
 import peersim.core.Linkable;
@@ -8,9 +11,6 @@ import peersim.core.Node;
 
 
 
-/**
- * Created by root on 5/12/17.
- */
 public class Dynamics implements Control{
 
     /**
@@ -18,10 +18,6 @@ public class Dynamics implements Control{
 
     private static final String PAR_ADD = "add";
 
-    /**
-     * Specifies the number of nodes to remove  **/
-
-    private static final String PAR_REMOVE  = "remove";
 
     /**
      * Nodes are added until the size specified by this parameter is reached
@@ -34,6 +30,8 @@ public class Dynamics implements Control{
 
     private static final String PAR_PROT="protocol";
 
+    /**
+     *      */
     private static final String LINKABLE_PROT = "linkable";
 
     /**
@@ -41,6 +39,30 @@ public class Dynamics implements Control{
 
     private static final String PAR_MIN = "minsize";
 
+    /**
+     * Specifies the number of nodes to remove  **/
+    private static final String REMOVE_NODE  = "remove";
+       
+    
+    /**
+     * Specifies whether to add or remove a node or a layer
+     * possible values : remove - add */
+    private static final String DYNAMICS_FLAG  = "dynamics.flag";
+    
+    /**
+     * Specifies which methode to use to remove nodes; possible values : id - layer
+     * Default value id */
+    private static final String REMOVE_BY  = "remove.by";
+    
+    /**
+     * Specifies the ID of the node to remove OR the coreness of the layer to remove (layer = nodes with the same Kcoreness)
+     * Default value : 0 */
+    private static final String PAR_REMOVE  = "remove.parameter";
+    
+    /**
+     * List of removed nodes */
+    public static ArrayList<Integer> removedNodesID = new ArrayList<Integer>();
+    
 
 
     //Fields
@@ -48,22 +70,66 @@ public class Dynamics implements Control{
     private static int pid;
     private static int linkpid;
     private final int add;
+    private static String dynamicFlag = "add";
+    private static String removeBy = "id";
+    private static int removedPar = -1 ;
     private final NewNodeInitializer init;
+    
    /* private final double remove;
     private final int minsize;
     private final int maxsize;*/
+
 
     public Dynamics(String prefix){
 
         pid = Configuration.getPid(prefix + "."+PAR_PROT);
         linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
         add = Configuration.getInt(prefix + "." + PAR_ADD);
+        
+        
+        if (Configuration.contains(DYNAMICS_FLAG)){
+        	dynamicFlag = Configuration.getString(DYNAMICS_FLAG);
+        	System.out.println("init "+dynamicFlag);
+        }
+        if (Configuration.contains(REMOVE_BY) && Configuration.contains(PAR_REMOVE)){
+        	removeBy = Configuration.getString(REMOVE_BY);
+        	removedPar = Configuration.getInt(PAR_REMOVE);
+        }
+        
+ 
         init = new NewNodeInitializer("newnode");
         //remove = Configuration.getDouble(prefix + "." + PAR_REMOVE);
        // minsize = Configuration.getInt(prefix + "." + PAR_MIN, Integer.MAX_VALUE);
         //maxsize = Configuration.getInt(prefix + "." + PAR_MIN, 0);
 
     }
+    
+    
+    /**
+     * Hack: returns id of the node to remove or -1 if there is no node to remove.
+     */
+    private static int node = 0;
+    
+	public static int getRemovedNodeId() {
+		if(removeBy.equals("id")){
+			return removedPar;
+		}else if (removeBy.equals("layer")){
+
+			for(int i=0 ; i<Network.size(); i++){ 
+				
+				Node peer = Network.get(i);
+				KcorenessFunction currentNode = (KcorenessFunction) peer.getProtocol(pid);
+				int currentNodeID = (int) peer.getID();	
+				
+				if(currentNode.getCoreness()==removedPar){
+					
+				}
+			}
+			
+		}
+		return 0;
+			
+	}
 
 
 
@@ -74,25 +140,16 @@ public class Dynamics implements Control{
             Node node = (Node) Network.prototype.clone();
             Network.add(node);
             init.initialize(node);
-
             Linkable linkable = (Linkable) node.getProtocol(linkpid);
-
-            System.out.println(Network.size());
-
             KcorenessFunction newNode = (KcorenessFunction) node.getProtocol(pid);
 
-            for (int j=0; j<init.degree; j++)
-            {
+            for (int j=0; j<init.degree; j++) {
                 linkable.addNeighbor(Network.get(j));
                 newNode.newEntry(linkable.getNeighbor(j));
-
             }
 
-
-           // ( (Linkable) Network.get(Network.size()-1)).addNeighbor(node);
+            // ( (Linkable) Network.get(Network.size()-1)).addNeighbor(node);
             //linkable.addNeighbor(node);
-
-
         }
 
     }
@@ -105,71 +162,95 @@ public class Dynamics implements Control{
 
     }
 
-	/*
+	/**
 	 * Removes a node given a given node ID
 	 * @Returns 0 if removed 1 otherwise
 	 * */
 
     public void removebyID(int ID){
 
-        int	 i = 0;
-        int	Id = Integer.MIN_VALUE;
-        KcorenessFunction neighboor = null;
-        Linkable link =  null ;
+            int	 i = 0;
+            int	Id = Integer.MIN_VALUE;
+            KcorenessFunction neighboor = null;
+            Linkable link =  null ;
 
-        while(i<Network.size() && Id!=ID){
-            Id = (int)Network.get(i).getID();
-            i++;
-        }
-
-        if(Id==ID){
-
-            link = (Linkable) Network.get(Id).getProtocol(linkpid);
-            for(int j=0 ;j<link.degree();j++){
-                neighboor = (KcorenessFunction)link.getNeighbor(j).getProtocol(pid);
-                neighboor.getEstimation().remove(Id);
+            while(i<Network.size() && Id!=ID){
+                Id = (int)Network.get(i).getID();
+                i++;
             }
-            Network.remove(Id);
 
 
-
+            if(Id==ID){
+            	link = (Linkable) Network.get(Id).getProtocol(linkpid);
+                for(int j=0 ;j<link.degree();j++){
+                    neighboor = (KcorenessFunction)link.getNeighbor(j).getProtocol(pid);
+                    neighboor.getEstimation().remove(Id);
+                }
+                removedNodesID.add(Id);
+                Network.remove(Id);
+ 
         }
     }
 
-	/*
+	/**
 	 * Removes a given layer based on a particular coreness value
 	 * @Returns number of removed nodes
+	 * NOT STABLE
 	 * */
-
     public int removeCorenessLayer(int corenessValue){
 
-        Node node = (Node) Network.prototype.clone();
-        KcorenessFunction protocol ;
-        int nbRemoved = 0;
+            Node node = (Node) Network.prototype.clone();
+            KcorenessFunction protocol ;
+            int nbRemoved = 0;
 
-        for(int i=0;i<Network.size();i++){
-
-            protocol = (KcorenessFunction) Network.get(i).getProtocol(pid);
-            if(protocol.getCoreness()==corenessValue){
-                removebyID((int)Network.get(i).getID());
-                nbRemoved++;
+            System.out.println(Network.size());
+            for(int i=0;i<Network.size();i++){
+                protocol = (KcorenessFunction) Network.get(i).getProtocol(pid);
+                if(protocol.getCoreness()==corenessValue){
+                    removebyID((int)Network.get(i).getID());
+                    removedNodesID.add((int)Network.get(i).getID());
+                    
+                    nbRemoved++;
+                }
             }
-        }
+            return nbRemoved;
 
-        return nbRemoved;
+       
 
     }
 
 
     @Override
+    /**
+     * Add or remove, if remove : by id or by layer.
+     */
     public boolean execute() {
-
-       /* if (add == 0)
-            return false;
-        add(add);*/
-        removeCorenessLayer(4);
-
-        return false;
+    	
+    	if (dynamicFlag.equals("add")){
+    		System.out.println("Adding node");
+    		add(add);
+    	
+    	}else if(dynamicFlag.equals("remove")){
+    		
+    		if(removeBy.equals("id")){
+    			System.out.println("Removing node with id: "+ removedPar);
+    			removebyID(removedPar);
+    		
+    		}else if (removeBy.equals("layer")){
+    			System.out.println("Removing layer with coreness: " +removedPar);
+    			removeCorenessLayer(removedPar);
+    		}else{
+    			return false;
+    		}
+    	
+    	}else{
+    		return false;
+    	}
+    	
+    	return false;
 
     }
+
+
+
 }

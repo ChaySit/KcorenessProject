@@ -82,31 +82,39 @@ public class KcorenessObserver implements Control{
 
 			// Storing the kcore of each node on the node of the graphStream graph
 			SingleNode n = graph.getNode("n"+currentNodeID);
-			n.setAttribute("kcore",currentNode.getCoreness());
-			n.setAttribute("ID",peer.getID());
-			n.setAttribute("NeighborsCoreness",currentNode.getEstimation());
+			
+			if(n!=null){
 
-			// Graphic display without coreness neighbors
-			if (currentNode.getCoreness() == 2) {
-				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
-				n.setAttribute("ui.class", "kcore2"); // make the node appear as important.
-			}
-			if(currentNode.getCoreness() == 3) {
-				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
-				n.setAttribute("ui.class", "kcore3");
-			}
-			if(currentNode.getCoreness() == 4) {
-				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
-				n.setAttribute("ui.class", "kcore4");
-			}
-			else {
-				n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+				n.setAttribute("kcore",currentNode.getCoreness());
+				n.setAttribute("ID",peer.getID());
+				n.setAttribute("NeighborsCoreness",currentNode.getEstimation());
+
+				// Graphic display without coreness neighbors
+				if (currentNode.getCoreness() == 2) {
+					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+					n.setAttribute("ui.class", "kcore2"); // make the node appear as important.
+				}
+				if(currentNode.getCoreness() == 3) {
+					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+					n.setAttribute("ui.class", "kcore3");
+				}
+				if(currentNode.getCoreness() == 4) {
+					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+					n.setAttribute("ui.class", "kcore4");
+				}
+				else {
+					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+				}
+
+				// Graphic display with coreness neighbors 
+				//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
+			}else{
+				System.out.println("Current node may be null");
 			}
 
-			// Graphic display with coreness neighbors 
-			//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
-		}
 
+			}
+			
 		//graph.addAttribute("ui.stylesheet", styleSheet);
 		//graph.display();
 		return false;

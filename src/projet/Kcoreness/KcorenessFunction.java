@@ -7,16 +7,22 @@ import peersim.core.Node;
 
 import java.util.HashMap;
 
+import javax.sound.sampled.ReverbType;
+
 
 public class KcorenessFunction implements CDProtocol {
 
+
+	
 	//Fields
 	private boolean changed; // boolean flag set to true if coreness has been changed 
 	private HashMap<Integer,Integer> estimation; // <id of the neighbor, the estimation of its coreness>
 	private int coreness; // the local estimate of the coreness of the node 
 
+	
 	public KcorenessFunction() {
 		estimation = new HashMap<>();
+
 	}
 
 	public boolean isChanged() {
@@ -66,11 +72,15 @@ public class KcorenessFunction implements CDProtocol {
 
 	public KcorenessFunction(String prefix) {
 		linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
+
 	}
 
 	@Override
 	public void nextCycle(Node node, int protocolID) {
 
+		//Hack
+		//removedNodeID = Dynamics.getRemovedNodeId();
+		
 		KcorenessFunction currentNode = (KcorenessFunction) node.getProtocol(protocolID);
 		Linkable link = (Linkable) node.getProtocol(linkpid);
 		int neighborCoreness;
@@ -84,21 +94,28 @@ public class KcorenessFunction implements CDProtocol {
 				
 				neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
 				neighborID=(int) link.getNeighbor(i).getID();
-				neighborCoreness = neighborNode.getCoreness();
+				
+				
+				//if(neighborID!=removedNodeID){
+				if(!Dynamics.removedNodesID.contains(neighborID)){
+					neighborCoreness = neighborNode.getCoreness();
 
-				int ncore = (Integer)currentNode.getEstimation().get(neighborID);
+					
+					int ncore = (Integer)currentNode.getEstimation().get(neighborID);
+					
+					if (neighborCoreness < ncore){
+						currentNode.getEstimation().put(neighborID, neighborCoreness);
 
-				if (neighborCoreness < ncore){
-					currentNode.getEstimation().put(neighborID, neighborCoreness);
+						//recalculating the estimation of local coreness
+						int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
 
-					//recalculating the estimation of local coreness
-					int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
-
-					if (t < currentNode.getCoreness()) {
-						currentNode.setCoreness(t);
-						currentNode.setChanged(true);
+						if (t < currentNode.getCoreness()) {
+							currentNode.setCoreness(t);
+							currentNode.setChanged(true);
+						}
 					}
 				}
+
 			}  
 		}
 
@@ -123,8 +140,12 @@ public class KcorenessFunction implements CDProtocol {
 		//compute how many nodes have estimated coreness >=i and store this value in array counts
 		for (i = 0; i < estimation.size(); i++) {
 			int neighborID=(int) link.getNeighbor(i).getID();
-			j = (k < (int) estimation.get(neighborID)) ? k : (int) estimation.get(neighborID);
-			counts[j] = counts[j] + 1;
+			if(!Dynamics.removedNodesID.contains(neighborID)){
+			//if (neighborID!=removedNodeID){
+				j = (k < (int) estimation.get(neighborID)) ? k : (int) estimation.get(neighborID);
+				counts[j] = counts[j] + 1;
+			}
+
 		}
 
 		for (i = k; i >= 2; i--) {
