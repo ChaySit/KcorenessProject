@@ -148,8 +148,6 @@ public class Dynamics implements Control{
                 newNode.newEntry(linkable.getNeighbor(j));
             }
 
-            // ( (Linkable) Network.get(Network.size()-1)).addNeighbor(node);
-            //linkable.addNeighbor(node);
         }
 
     }

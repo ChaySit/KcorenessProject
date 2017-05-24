@@ -2,13 +2,13 @@
 random.seed 1234567890
 
 #Number of cycle
-simulation.cycles 4
+simulation.cycles 1
 
 #Nodes will be visited in a shuffle order
 control.shf Shuffle
 
 #Number of nodes
-network.size 100
+network.size 25
 
 #To show execution time
 __t
@@ -43,7 +43,7 @@ include.init wire initial
 ### To use it change GRAPHML_WRITING_PATH in projet.Kcoreness.KcorenessGraphmlObserver first
 control.obs KcorenessGraphmlObserver
 
-#control.obs KcorenessObserver
+control.obs KcorenessObserver
 control.obs.protocol core
 control.obs.linkable lnk
 
@@ -54,7 +54,7 @@ control.obs.linkable lnk
 
 dynamics.flag remove
 remove.by id
-remove.parameter 10
+remove.parameter 12
 
 newnode NewNodeInitializer
 newnode.protocol core
