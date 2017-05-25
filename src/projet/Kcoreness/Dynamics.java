@@ -66,11 +66,11 @@ public class Dynamics implements Control{
 	}
 
 
-	/*
-	 * * Add a node to the Network and 
-	 */
+	/**
+     * initializes a node using NewNodeInitialize.initialize(node) and link random neighbors from the network
+     * @param n numbers of nodes to add
+     */
 	public void add(int n) {
-
 		for (int i=0; i<n; i++) {
 
 			Node node = (Node) Network.prototype.clone();

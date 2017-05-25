@@ -7,7 +7,6 @@ import peersim.core.Network;
 import peersim.core.Node;
 import peersim.graph.Graph;
 import peersim.graph.Parser;
-import java.util.Set;
 
 import java.util.Iterator;
 
@@ -15,12 +14,13 @@ import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
 /**
- *  A controller that gets the Kcore of each node and its neighbors
+ *  A controller that displays the topology of the network including the kcoreness of each node during a cycle
  **/
 public class KcorenessObserver implements Control{
 
-	/* Parameters for Linkable protocol identifier */
+	/* Parameter for kcoreness protocol identifier */
 	private static final String PAR_PROT = "protocol";
+    /* Parameter for Linkable protocol identifier */
 	private static final String LINKABLE_PROT = "linkable";
 
 	/* Protocol identifiers : obtained from config property {@link #PAR_PROT} */
@@ -29,43 +29,38 @@ public class KcorenessObserver implements Control{
 
 	/* Constructor */
 	public KcorenessObserver(String prefix){
-		// get identifiers of linkable protocol 
+		// get identifiers of the protocols
 		pid = Configuration.getPid(prefix + "."+PAR_PROT);
 		linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
 	}
 
-	/* StyleSheet (CSS for GraphStream) */ 
-	protected String styleSheet =
-			"node.kcore2 {" +
-					"	fill-color: green;" +
-					"}" +
-					"node.kcore3 {" +
-					"	fill-color: red;" +
-					"}"+
-					"node.kcore4 {" +
-					"	fill-color: blue;" +
-					"}";
+	/* StyleSheet (CSS for GraphStream) */
+    protected String styleSheet =
+            "node.kcore2 {" +
+            "	fill-color: green;" +
+            "}" +
+            "node.kcore3 {" +
+            "	fill-color: red;" +
+            "}"+
+            "node.kcore4 {" +
+            "	fill-color: blue;" +
+            "}";
 
 
-	/** 
-	 * return true if the simulation has to be stopped 
+	/**
+	 * return true if the simulation has to be stopped
 	 * **/
 	@Override
 	public boolean execute() {
 
-		// Construction of graphStream graph 	
+		// Construction of graphStream graph
 		SingleGraph graph = new SingleGraph("Kcoreness graph");
 
-		//Saving nodes
-		for(int i=0 ; i<Network.size(); i++){  
-			Node peer = Network.get(i); //Network.get(index)
-			graph.addNode("n"+(int)peer.getID());
-		}
-		
-		/*/ Nodes
+		// Adding nodes to the graph
 		for(int i=0; i<Network.size(); i++){
 			graph.addNode("n"+i);
-		}//*/
+		}
+
 
 		for (int i=0; i< Network.size(); i++){
 
@@ -74,15 +69,16 @@ public class KcorenessObserver implements Control{
 			Linkable link = (Linkable) peer.getProtocol(linkpid);
 			int currentNodeID = (int) peer.getID();
 
-			/*// Edges
+			/// Edges
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
+                   /* creates an edge with an id= eNode-Neighbor between the node and its neighbor     */
 					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
 				}	
 			}//*/
 
-			/// Edges for remove 
+			/*// Edges for remove 
 			Set<Integer> set = currentNode.getEstimation().keySet();
 			Object[] array = (Object[]) set.toArray();
 			for(int j=0; j<array.length; j++){
@@ -90,47 +86,50 @@ public class KcorenessObserver implements Control{
 				graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);	
 			}//*/
 
-
-			// Diplay console 
+			// Diplays a node with its kcoreness and the estimation of its neighbors kcoreness
 			System.out.println("Peer "+peer.getID()+ " has Kcoreness = "+ currentNode.getCoreness());
 			System.out.println("the estimation of its neighbors coreness " + currentNode.getEstimation());
 
-			// Storing the kcore of each node on the node of the graphStream graph
-			SingleNode n = graph.getNode("n"+currentNodeID);
+			/*Storing the kcoreness of each node on the graphStream graph */
+			SingleNode node = graph.getNode("n"+currentNodeID);
 
-			if(n!=null){
+			if(node!=null){
 
-				n.setAttribute("kcore",currentNode.getCoreness());
-				n.setAttribute("ID",peer.getID());
-				n.setAttribute("NeighborsCoreness",currentNode.getEstimation());
+				node.setAttribute("kcore",currentNode.getCoreness());
+				node.setAttribute("ID",peer.getID());
+				node.setAttribute("NeighborsCoreness",currentNode.getEstimation());
 
-				// Graphic display without coreness neighbors
+				/*Graphic display of a node with a color that identifies its kcoreness using the CSS stylesheet declared above*/
 				if (currentNode.getCoreness() == 2) {
-					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
-					n.setAttribute("ui.class", "kcore2"); // make the node appear as important.
+					node.addAttribute("ui.label","Peer"+node.getAttribute("ID")+" Kcore="+node.getAttribute("kcore"));
+					node.setAttribute("ui.class", "kcore2"); // make the node appear as important.
 				}
 				if(currentNode.getCoreness() == 3) {
-					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
-					n.setAttribute("ui.class", "kcore3");
+					node.addAttribute("ui.label","Peer"+node.getAttribute("ID")+" Kcore="+node.getAttribute("kcore"));
+					node.setAttribute("ui.class", "kcore3");
 				}
 				if(currentNode.getCoreness() == 4) {
-					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
-					n.setAttribute("ui.class", "kcore4");
-				}
-				else {
-					n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore"));
+					node.addAttribute("ui.label","Peer"+node.getAttribute("ID")+" Kcore="+node.getAttribute("kcore"));
+					node.setAttribute("ui.class", "kcore4");
 				}
 
-				// Graphic display with coreness neighbors 
-				//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
+				//In this case the node will use the default display style
+				else {
+					node.addAttribute("ui.label","Peer"+node.getAttribute("ID")+" Kcore="+node.getAttribute("kcore"));
+				}
+
+
 			}else{
 				System.out.println("Current node may be removed");
 			}
 
 
-		}
+			}
 
+
+		//adding the css stylesheet to the graph
 		graph.addAttribute("ui.stylesheet", styleSheet);
+
 		graph.display();
 		return false;
 	}
