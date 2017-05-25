@@ -1,4 +1,4 @@
- ppackage peersim.dynamics;
+ package peersim.dynamics;
 
 import peersim.config.Configuration;
 import peersim.graph.Graph;
@@ -21,8 +21,6 @@ public class WireImporter extends WireGraph  {
 		size = Configuration.getInt(NETWORK_SIZE);
 	}
 	
-
-
 	/** Calls {@link GraphFactory#wireGrid}.*/
 	public void wire(Graph g) {
 		//The wiring logic 
