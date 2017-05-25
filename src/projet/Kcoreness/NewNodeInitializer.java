@@ -20,10 +20,10 @@ public class NewNodeInitializer implements NodeInitializer {
     private static final String PAR_LINKABLE ="linkable";
 
 
-    // the kcoreness protocol
+
     private static int pid;
-    // the linkable protocol
     private static int linkpid;
+
     // number of neighbors
     public int degree;
 
