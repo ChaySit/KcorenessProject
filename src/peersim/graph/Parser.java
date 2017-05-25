@@ -39,7 +39,7 @@ public class Parser {
 
 			// root elements
 			this.doc = docBuilder.newDocument();
-			this.rootElement = doc.createElement("grpahml");
+			this.rootElement = doc.createElement("graphml");
 			doc.appendChild(rootElement);
 			
 			// set attribute xmlns to root element
