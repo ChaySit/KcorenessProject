@@ -135,7 +135,7 @@ public class KcorenessFunction implements CDProtocol {
 						currentNode.getEstimation().put(neighborID, neighborCoreness);
 
 					         // invoke the computation of the updated local coreness based on the coreness 
-				        	int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);););
+				        	int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
 						/*
 						* We compare the value computed by computeIndex with the local coreness
 						* If the returned value is less than the current value , the coreness value
@@ -153,16 +153,16 @@ public class KcorenessFunction implements CDProtocol {
 
 	}
 
-	/**This method computes the new temporary estimation of coreness
-	 * based on the local estimation of that of the neighboors.
+	/**This method computes the new temporary local coreness of a the current node
+	 * based on the local estimation of that of its neighboors.
 	 * @param estimation      : neighboors' coreness value estimation
 	 * @param currentNode     : current node 
-	 * @param node 		  : the node for which the local estimation has changed	
-	 * @param k		  : current value of local coreness
-	 * @return the largest value i such that there are at least i entries 
-	 * greater or equal to i in neighbors estimation
+	 * @param node 		  : the node for which the current coreness value is less than its local estimation
+	 * @param k		  : current local coreness of the current node 
+	 * @return the largest value i such that there are at least i neighboors with a coreness estimation greater 
+	 * or equal to i
 	 */
-	public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode,int k , Node node){
+	public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode, int k, Node node){
 
 		Linkable link = (Linkable) node.getProtocol(linkpid);
 		int[] counts = new int[currentNode.getCoreness() + 1];
