@@ -43,9 +43,11 @@ public class Dynamics implements Control{
 	private static int linkpid;
 	
 	private static String dynamicFlag;
-	private static NewNodeInitializer init;
 	private static int add;
 	private static int idToRemove; 
+	
+	// To initialize a node before inserting it into the topology 
+	private static NewNodeInitializer init;
 
 	/* Constructor */
 	public Dynamics(String prefix){
@@ -60,27 +62,31 @@ public class Dynamics implements Control{
 		else {
 			idToRemove = Configuration.getInt(prefix + "." + ID_TO_REMOVE);
 		}
-
-		//     
+		
 		init = new NewNodeInitializer("newnode");
 	}
 
-
+	
 	/**
-     * initializes a node using NewNodeInitialize.initialize(node) and link random neighbors from the network
-     * @param n numbers of nodes to add
-     */
+	 * initializes nodes using NewNodeInitialize.initialize(node) and link a defined number of random neighbors from the network to each node
+	 * @param n numbers of nodes to add
+	 */
 	public void add(int n) {
 		for (int i=0; i<n; i++) {
-
+            
+			//Create a node by cloning the network prototype
 			Node node = (Node) Network.prototype.clone();
 			Network.add(node);
+			// Initializing a node
 			init.initialize(node);
 			Linkable linkable = (Linkable) node.getProtocol(linkpid);
 			KcorenessFunction newNode = (KcorenessFunction) node.getProtocol(pid);
 
 			for (int j=0; j<init.degree; j++) {
+				/* Since Network.get(j) returns the node with the index j, which changes in each cycle
+				 * neighbors added to each node won't be the same */
 				linkable.addNeighbor(Network.get(j));
+				//filling the hashmap of the node with its neighbors and the estimation of their kcoreness
 				newNode.newEntry(linkable.getNeighbor(j));
 			}
 

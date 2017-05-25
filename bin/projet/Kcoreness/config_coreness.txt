@@ -2,13 +2,13 @@
 random.seed 1234567890
 
 #Number of cycle
-simulation.cycles 3
+simulation.cycles 2
 
 #Nodes will be visited in a shuffle order
 control.shf Shuffle
 
 #Number of nodes
-network.size 16
+network.size 9
 
 
 #To show execution time
@@ -49,24 +49,22 @@ control.obs.protocol core
 control.obs.linkable lnk
 
 
-#Specifies whether to add or remove a node or a layer 
-#dynamics.flag add will add will add a node in every cycle
+#Specifies whether to add or remove 
+#dynamics.flag add will add a node in every cycle
 #dynamics.flag remove will remove the node with the specified id (one node by simulation)
-
 
 newnode NewNodeInitializer
 newnode.protocol core
 newnode.linkable lnk
 newnode.degree 2
 
-
 control.dnet Dynamics
 control.dnet.flag addNodes
+
 # number of nodes to add 
 control.dnet.add 1
-control.dnet.idremoved 5
+#control.dnet.idremoved 5
 control.dnet.protocol core
 control.dnet.linkable lnk
-#control.dnet.minsize 4000
-control.dnet.from 0
-control.dnet.until 1
+#control.dnet.from 0
+#control.dnet.until 1
