@@ -84,7 +84,6 @@ public class KcorenessObserver implements Control{
 
 			/// Edges for remove 
 			Set<Integer> set = currentNode.getEstimation().keySet();
-			System.out.println("Set"+set);
 			Object[] array = (Object[]) set.toArray();
 			for(int j=0; j<array.length; j++){
 				int neighborID = (int) array[j];
@@ -125,7 +124,7 @@ public class KcorenessObserver implements Control{
 				// Graphic display with coreness neighbors 
 				//n.addAttribute("ui.label","Peer"+n.getAttribute("ID")+" Kcore="+n.getAttribute("kcore")+"NeighborsCoreness "+n.getAttribute("NeighborsCoreness"));    
 			}else{
-				System.out.println("Current node may be null");
+				System.out.println("Current node may be removed");
 			}
 
 
