@@ -2,13 +2,13 @@
 random.seed 1234567890
 
 #Number of cycle
-simulation.cycles 2
+simulation.cycles 4
 
 #Nodes will be visited in a shuffle order
 control.shf Shuffle
 
 #Number of nodes
-network.size 9
+network.size 25
 
 
 #To show execution time
@@ -31,6 +31,10 @@ protocol.core.linkable lnk
 init.wire WireGrid
 init.wire.protocol lnk
 
+### To load coreness from graphml
+### To use it change GRAPHML_READING_PATH in project.Kcoreness.KcorenessGraphmlInitializer
+#init.initial KcorenessGraphmlInitializer
+
 init.initial KcorenessInitializer
 init.initial.protocol core
 init.initial.linkable lnk
@@ -42,7 +46,7 @@ include.init wire initial
 
 ### To save results as graphml 
 ### To use it change GRAPHML_WRITING_PATH in projet.Kcoreness.KcorenessGraphmlObserver first
-control.obs KcorenessGraphmlObserver
+#control.obs KcorenessGraphmlObserver
 
 control.obs KcorenessObserver
 control.obs.protocol core
