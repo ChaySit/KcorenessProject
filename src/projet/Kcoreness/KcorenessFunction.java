@@ -60,7 +60,7 @@ public class KcorenessFunction implements CDProtocol {
 		this.coreness = coreness;
 	}
 
-	/*This method adds a node 
+	/**This method adds a node 
 	 * @param : node to be added as a neighboor with a default value of positive infinity
 	 * */
 	
@@ -69,7 +69,7 @@ public class KcorenessFunction implements CDProtocol {
 	}
   
 	/**
-	 * This method is used to create nodes based on an prototype 
+	 * This method is used to create nodes based on an node prototype 
 	 * */
 	@Override
 	public Object clone() {
@@ -120,17 +120,27 @@ public class KcorenessFunction implements CDProtocol {
 				
 		
 				if(!Dynamics.removedNodesID.contains(neighborID)){
+					// get the coreness value of the neighboor
 					neighborCoreness = neighborNode.getCoreness();
 
-					
+					// get the estimation of the coreness value of the neighboor
 					int ncore = (Integer)currentNode.getEstimation().get(neighborID);
 					
+					/*	
+					if the estimation of the neighbor's coreness is greater that what is currently estimated, 
+					 the estimation gets updated, and the computation of the updated local coreness
+					 is started.
+					*/
 					if (neighborCoreness < ncore){
 						currentNode.getEstimation().put(neighborID, neighborCoreness);
 
-					
-						int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
-
+					         // invoke the computation of the updated local coreness based on the coreness 
+				        	int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
+						/*
+						* We compare the value computed by computeIndex with the local coreness
+						* If the returned value is less than the current value , the coreness value
+						* gets updated.
+						*/
 						if (t < currentNode.getCoreness()) {
 							currentNode.setCoreness(t);
 							currentNode.setChanged(true);
@@ -143,26 +153,31 @@ public class KcorenessFunction implements CDProtocol {
 
 	}
 
-	/**This method computes the new temporary estimation of coreness
-	 * based on the local estimation of that of the neighboors.
-	 * @param estimation  : neighboors' coreness value estimation
-	 * @param currentNode : current node 
-	 * @param node 		  : the node for which the local estimation has changed	
-	 * @param k		 	  : current value of local coreness
-	 * @return the largest value i such that there are at least i entries 
-	 * greater or equal to i in neighbors estimation
+	/**This method computes the new temporary local coreness of a the current node
+	 * based on the local estimation of that of its neighboors.
+	 * @param estimation      : neighboors' coreness value estimation
+	 * @param currentNode     : current node 
+	 * @param node 		  : the node for which the current coreness value is less than its local estimation
+	 * @param k		  : current local coreness of the current node 
+	 * @return the largest value i such that there are at least i neighboors with a coreness estimation greater 
+	 * or equal to i
 	 */
-	public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode,int k , Node node){
+	public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode, int k, Node node){
 
 		Linkable link = (Linkable) node.getProtocol(linkpid);
 		int[] counts = new int[currentNode.getCoreness() + 1];
 		int i,j;
 
+		// initialization of  the counts array 
 		for (i = 1; i < currentNode.getCoreness(); i++) {
 			counts[i] = 0;
 		}
 
-		//compute how many nodes have estimated coreness >=i and store this value in array counts
+		/* compute how many nodes have an estimated coreness greater or equal than 
+		*  a value j and store this number in array counts j-th element.
+		*  Note that j is garanteed to be less or equal to the  local coreness value k
+		*   
+		 */
 		for (i = 0; i < estimation.size(); i++) {
 			int neighborID=(int) link.getNeighbor(i).getID();
 			if(!Dynamics.removedNodesID.contains(neighborID)){
@@ -176,9 +191,10 @@ public class KcorenessFunction implements CDProtocol {
 		for (i = k; i >= 2; i--) {
 			counts[i - 1] = counts[i - 1] + counts[i];
 		}
+		
 		i=k;
 
-		//Searching the largest value i such that count[i]>=i
+		//Searching the largest value i such that count[i] is greater or equal to i
 		while (i > 1 && counts[i] < i) {
 			i--;
 		}
