@@ -5,9 +5,7 @@ import peersim.core.Linkable;
 import peersim.core.Node;
 import peersim.dynamics.NodeInitializer;
 
-/**
- * Created by root on 5/17/17.
- */
+
 public class NewNodeInitializer implements NodeInitializer {
 
     private static final String PAR_DEGREE = "degree";

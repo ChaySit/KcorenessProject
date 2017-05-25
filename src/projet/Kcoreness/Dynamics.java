@@ -69,9 +69,7 @@ public class Dynamics implements Control{
     private static int removedPar = -1 ;
     private final NewNodeInitializer init;
     
-   /*
-    private final int minsize;
-    private final int maxsize;*/
+
 
 
     public Dynamics(String prefix){
@@ -93,38 +91,15 @@ public class Dynamics implements Control{
  
         init = new NewNodeInitializer("newnode");
 
-       // minsize = Configuration.getInt(prefix + "." + PAR_MIN, Integer.MAX_VALUE);
-        //maxsize = Configuration.getInt(prefix + "." + PAR_MIN, 0);
+
 
     }
-    
-    
+
     /**
-     * Hack: returns id of the node to remove or -1 if there is no node to remove.
+     * initializes a node using NewNodeInitialize.initialize(node) and
+      link random neighbors from the network
+     * @param n numbers of nodes to add
      */
-    private static int node = 0;
-    
-	public static int getRemovedNodeId() {
-		if(removeBy.equals("id")){
-			return removedPar;
-		}else if (removeBy.equals("layer")){
-
-			for(int i=0 ; i<Network.size(); i++){ 
-				
-				Node peer = Network.get(i);
-				KcorenessFunction currentNode = (KcorenessFunction) peer.getProtocol(pid);
-				int currentNodeID = (int) peer.getID();	
-				
-				if(currentNode.getCoreness()==removedPar){
-					
-				}
-			}
-			
-		}
-		return 0;
-			
-	}
-
 
 
     public void add(int n) {
@@ -155,8 +130,8 @@ public class Dynamics implements Control{
 
             int	 i = 0;
             int	Id = Integer.MIN_VALUE;
-            KcorenessFunction neighboor = null ;
-            Linkable link = null ;
+            KcorenessFunction neighboor ;
+            Linkable link ;
 
             while(i<Network.size() && Id!=ID){
                 if((int)Network.get(i).getID()==ID)
@@ -186,9 +161,6 @@ public class Dynamics implements Control{
 
                 }
 
-
-
- 
         }
     }
 

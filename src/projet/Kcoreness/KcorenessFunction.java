@@ -12,8 +12,6 @@ import javax.sound.sampled.ReverbType;
 
 public class KcorenessFunction implements CDProtocol {
 
-
-	
 	//Fields
 	private boolean changed; // boolean flag set to true if coreness has been changed 
 	private HashMap<Integer,Integer> estimation; // <id of the neighbor, the estimation of its coreness>
@@ -78,9 +76,6 @@ public class KcorenessFunction implements CDProtocol {
 	@Override
 	public void nextCycle(Node node, int protocolID) {
 
-		//Hack
-		//removedNodeID = Dynamics.getRemovedNodeId();
-		
 		KcorenessFunction currentNode = (KcorenessFunction) node.getProtocol(protocolID);
 		Linkable link = (Linkable) node.getProtocol(linkpid);
 		int neighborCoreness;
