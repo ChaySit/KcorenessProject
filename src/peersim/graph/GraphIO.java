@@ -41,7 +41,6 @@ import org.w3c.dom.NodeList;
 */
 public class GraphIO {
 	
-public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph3.graphml";
 
 GraphIO() {}
 
@@ -146,19 +145,27 @@ public static void writeGML( Graph g, PrintStream out ) {
 /**
  * Modify the given graph g to
  * the given graphml format.
+ * @param size 
  */
 
-public static void graphMLReader(Graph g) {  
+public static void graphMLReader(Graph g, String path, int size) {  
 	try {    
-		     File fXmlFile = new File(GRAPHML_READING_PATH);
+		     File fXmlFile = new File(path);
              DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
              DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
              Document doc = dBuilder.parse(fXmlFile);
              
              doc.getDocumentElement().normalize();   
+             NodeList nodeList = doc.getElementsByTagName("node");  
+            
+
+             if(nodeList.getLength()>size){ //Needs verification
+            	throw new Exception("Graphml nodes size and network.size do not match. Please set network.size to "+ (nodeList.getLength()+1)+" or more.");
+             }
+             
              NodeList edgeList = doc.getElementsByTagName("edge");  
              
-            for (int i = 0; i < edgeList.getLength(); i++) {
+             for (int i = 0; i < edgeList.getLength(); i++) {
                 Node edge = edgeList.item(i);
                 if (edge.getNodeType() == Node.ELEMENT_NODE) {  
 				    Element eElement = (Element) edge;
@@ -166,11 +173,12 @@ public static void graphMLReader(Graph g) {
                     int t = Integer.parseInt(eElement.getAttribute("target"));
                     g.setEdge(s, t);
                 }
-            }
+             }
 
         } catch (Exception e) {
                 e.printStackTrace();
-        }	
+                
+        }
 }
 
 //---------------------------------------------------------------------
