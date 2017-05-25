@@ -46,7 +46,7 @@ public class NewNodeInitializer implements NodeInitializer {
         newNode.setChanged(false);
         //initializing the kcoreness of a node with its degree
         newNode.setCoreness(degree);
-        /*filling the hashmap of the node with its neighbors and the estimation of their kcoreness*/
+        /* filling the hashmap of the node with its neighbors and the estimation of their kcoreness*/
         for (int j = 0; j < linkable.degree(); j++) {
 
             newNode.newEntry(linkable.getNeighbor(j));
