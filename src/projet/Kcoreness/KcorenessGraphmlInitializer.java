@@ -13,28 +13,26 @@ import peersim.config.Configuration;
 import peersim.core.Control;
 import peersim.core.Linkable;
 import peersim.core.Network;
-import peersim.core.Node;
 
 /**
  * This Control class is used to initialize a node using Kcoreness loaded from a graphml file
- * Id issue must be fixed.
  * */
 public class KcorenessGraphmlInitializer implements Control {
     
 
-    //Parameters
-	public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph3.graphml";
-	public static final String NETWORK_SIZE = "network.size" ;
 	
 	/**These values are used to parse the configuration file
 	 * PAR_PROT represents the protocol of K-Coreness Function
 	 * LINKABLE_PROT represents the Linkable protocol
 	 * */
+    //Parameters
     private static final String PAR_PROT = "protocol";
     private static final String LINKABLE_PROT = "linkable";
+	public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph1.graphml";
+	public static final String NETWORK_SIZE = "network.size" ;
 
     //Fields
-    /*These fields will hold the identifiers of 
+    /**These fields will hold the identifiers of 
      * both the K-Coreness and linkable protocols
      * */
     private static int pid;
@@ -54,7 +52,6 @@ public class KcorenessGraphmlInitializer implements Control {
      * and the linking between neighboors
      * It loads coreness from Graphml file
      * */
-    
     @Override
     public boolean execute() {
     	
@@ -67,31 +64,33 @@ public class KcorenessGraphmlInitializer implements Control {
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
             
-            
+            //Verifying the size
             NodeList nodeList = doc.getElementsByTagName("node");             
             if(nodeList.getLength()>size){
             	throw new Exception("Graphml nodes size and network.size do not match. Please set network.size to "+ (nodeList.getLength()+1)+" or more.");
             }
             
-
+            
             for (int i=0; i< Network.size(); i++){
             	
             	KcorenessFunction protocol = (KcorenessFunction) Network.get(i).getProtocol(pid);
                 Linkable linkable = (Linkable) Network.get(i).getProtocol(linkpid);
                 protocol.setChanged(false);
-                
 
-                //Loading Kcoreness from graphml file to nodes.
+                int nodeID = (int)Network.get(i).getID();
                 
-                /*
-                 * TODO fix issue : 
-                 * Load id from graphml.
-                 * Give right coreness to the right node.
-                 */
-   
-                Element data = (Element) nodeList.item(i).getFirstChild();
-                protocol.setCoreness(Integer.parseInt(data.getTextContent()));
-                
+                //Loading Kcoreness from node with the right id in the given graphml file .              
+                for(int it=0; it <nodeList.getLength();it++){
+                	
+                    Element eNode = (Element) nodeList.item(it);
+                    int graphmlNodeId = Integer.parseInt(eNode.getAttribute("id"));
+                   	if (nodeID==graphmlNodeId){       		
+                   		Element data  = (Element) nodeList.item(it).getFirstChild();
+                        int coreness = Integer.parseInt(data.getTextContent());
+                        protocol.setCoreness(coreness);
+                   	}
+                }
+
                 for (int j=0; j<linkable.degree(); j++){
                 	protocol.newEntry(linkable.getNeighbor(j));
                 }
