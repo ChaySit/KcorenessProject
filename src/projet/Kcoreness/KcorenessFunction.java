@@ -71,7 +71,6 @@ public class KcorenessFunction implements CDProtocol {
 
 	public KcorenessFunction(String prefix) {
 		linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
-
 	}
 
 	@Override
