@@ -6,19 +6,31 @@ import peersim.core.Linkable;
 import peersim.core.Node;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import javax.sound.sampled.ReverbType;
 
 
+/**
+ * This class implements the k-Coreness decomposition alogorithm . 
+ * Objects of this class holds the local k-Coreness attributes along 
+ * with their own estimations for their neighboors .
+ * The instance method nextCycle() carries the code that will be executed 
+ * by each node . 
+ * */
+
+
 public class KcorenessFunction implements CDProtocol {
 
-	//Fields
+
+	
+	/* Fields that defines the attributes of the K-CorenessFunction protocol
+	 *  
+	 * */
 	private boolean changed; // boolean flag set to true if coreness has been changed 
 	private HashMap<Integer,Integer> estimation; // <id of the neighbor, the estimation of its coreness>
 	private int coreness; // the local estimate of the coreness of the node 
 
-
+	
 	public KcorenessFunction() {
 		estimation = new HashMap<>();
 
@@ -48,11 +60,17 @@ public class KcorenessFunction implements CDProtocol {
 		this.coreness = coreness;
 	}
 
-	// add a new neighbor 
+	/*This method adds a node 
+	 * @param : node to be added as a neighboor with a default value of positive infinity
+	 * */
+	
 	public void newEntry(Node peer){
 		estimation.put((int) peer.getID(),Integer.MAX_VALUE);
 	}
-
+  
+	/**
+	 * This method is used to create nodes based on an prototype 
+	 * */
 	@Override
 	public Object clone() {
 		KcorenessFunction corenessProtocol = null;
@@ -73,33 +91,44 @@ public class KcorenessFunction implements CDProtocol {
 		linkpid = Configuration.getPid(prefix + "." + LINKABLE_PROT);
 	}
 
+	/**
+	 * The nextCycle() method will be invoked in a cycle-based manner 
+	 * for each node  
+	 * @param node : the local node 
+	 * @param protocolID : the protocol being executed
+	 * **/
+	
 	@Override
 	public void nextCycle(Node node, int protocolID) {
 
+		
+		
 		KcorenessFunction currentNode = (KcorenessFunction) node.getProtocol(protocolID);
 		Linkable link = (Linkable) node.getProtocol(linkpid);
 		int neighborCoreness;
 		KcorenessFunction neighborNode;
 		int neighborID ;
 
-		// Initialization send (currentNode,currentNode.getCoreness) to neighbors(currentNode)
+		
 		if (link.degree() > 0) {
-
+			
 			for (int i=0; i<link.degree(); i++) {
-
+				
 				neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
 				neighborID=(int) link.getNeighbor(i).getID();
-
-
-				//if(neighborID!=removedNodeID){
+				
+				
+		
 				if(!Dynamics.removedNodesID.contains(neighborID)){
-					// Old value of kcoreness
 					neighborCoreness = neighborNode.getCoreness();
-					// New estimation of my neighbor coreness 
+
+					
 					int ncore = (Integer)currentNode.getEstimation().get(neighborID);
+					
 					if (neighborCoreness < ncore){
 						currentNode.getEstimation().put(neighborID, neighborCoreness);
-						//recalculating the estimation of local coreness
+
+					
 						int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
 
 						if (t < currentNode.getCoreness()) {
@@ -114,11 +143,14 @@ public class KcorenessFunction implements CDProtocol {
 
 	}
 
-	/** ComputeIndex compute the new temporary estimation of coreness
-	 * @param estimation
-	 * @param currentNode
-	 * @param k
-	 * @return the largest value i such that there are at least i entries; >= than i in neighbors estimation
+	/**This method computes the new temporary estimation of coreness
+	 * based on the local estimation of that of the neighboors.
+	 * @param estimation  : neighboors' coreness value estimation
+	 * @param currentNode : current node 
+	 * @param node 		  : the node for which the local estimation has changed	
+	 * @param k		 	  : current value of local coreness
+	 * @return the largest value i such that there are at least i entries 
+	 * greater or equal to i in neighbors estimation
 	 */
 	public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode,int k , Node node){
 
@@ -134,13 +166,13 @@ public class KcorenessFunction implements CDProtocol {
 		for (i = 0; i < estimation.size(); i++) {
 			int neighborID=(int) link.getNeighbor(i).getID();
 			if(!Dynamics.removedNodesID.contains(neighborID)){
-				//if (neighborID!=removedNodeID){
+
 				j = (k < (int) estimation.get(neighborID)) ? k : (int) estimation.get(neighborID);
 				counts[j] = counts[j] + 1;
 			}
 
 		}
-
+		
 		for (i = k; i >= 2; i--) {
 			counts[i - 1] = counts[i - 1] + counts[i];
 		}
