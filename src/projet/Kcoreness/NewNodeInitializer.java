@@ -27,7 +27,7 @@ public class NewNodeInitializer implements NodeInitializer {
     // number of neighbors
     public int degree;
 
-    /* Parameters identifiers : obtained from config property */
+    /*  Parameters identifiers : obtained from config property */
 
     public NewNodeInitializer(String prefix){
         pid = Configuration.getPid(prefix + "."+PAR_PROT);
