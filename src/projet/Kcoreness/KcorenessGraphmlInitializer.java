@@ -15,17 +15,28 @@ import peersim.core.Linkable;
 import peersim.core.Network;
 import peersim.core.Node;
 
-
+/**
+ * This Control class is used to initialize a node using Kcoreness loaded from a graphml file
+ * Id issue must be fixed.
+ * */
 public class KcorenessGraphmlInitializer implements Control {
     
 
     //Parameters
 	public static final String GRAPHML_READING_PATH = "D:\\Workspace\\peerSim\\graphs\\graph3.graphml";
 	public static final String NETWORK_SIZE = "network.size" ;
+	
+	/**These values are used to parse the configuration file
+	 * PAR_PROT represents the protocol of K-Coreness Function
+	 * LINKABLE_PROT represents the Linkable protocol
+	 * */
     private static final String PAR_PROT = "protocol";
     private static final String LINKABLE_PROT = "linkable";
 
     //Fields
+    /*These fields will hold the identifiers of 
+     * both the K-Coreness and linkable protocols
+     * */
     private static int pid;
     private static int linkpid;
     private static int size;
@@ -37,6 +48,13 @@ public class KcorenessGraphmlInitializer implements Control {
         size = Configuration.getInt(NETWORK_SIZE);
     }
 
+    /**
+     * 
+     * This method performs the actual initialization of the local coreness
+     * and the linking between neighboors
+     * It loads coreness from Graphml file
+     * */
+    
     @Override
     public boolean execute() {
     	
