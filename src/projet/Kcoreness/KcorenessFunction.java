@@ -6,6 +6,7 @@ import peersim.core.Linkable;
 import peersim.core.Node;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.sound.sampled.ReverbType;
 
@@ -17,7 +18,7 @@ public class KcorenessFunction implements CDProtocol {
 	private HashMap<Integer,Integer> estimation; // <id of the neighbor, the estimation of its coreness>
 	private int coreness; // the local estimate of the coreness of the node 
 
-	
+
 	public KcorenessFunction() {
 		estimation = new HashMap<>();
 
@@ -84,23 +85,21 @@ public class KcorenessFunction implements CDProtocol {
 
 		// Initialization send (currentNode,currentNode.getCoreness) to neighbors(currentNode)
 		if (link.degree() > 0) {
-			
+
 			for (int i=0; i<link.degree(); i++) {
-				
+
 				neighborNode = (KcorenessFunction) link.getNeighbor((Integer)i).getProtocol(protocolID);
 				neighborID=(int) link.getNeighbor(i).getID();
-				
-				
+
+
 				//if(neighborID!=removedNodeID){
 				if(!Dynamics.removedNodesID.contains(neighborID)){
+					// Old value of kcoreness
 					neighborCoreness = neighborNode.getCoreness();
-
-					
+					// New estimation of my neighbor coreness 
 					int ncore = (Integer)currentNode.getEstimation().get(neighborID);
-					
 					if (neighborCoreness < ncore){
 						currentNode.getEstimation().put(neighborID, neighborCoreness);
-
 						//recalculating the estimation of local coreness
 						int t = ComputeIndex(currentNode.getEstimation(),currentNode, currentNode.getCoreness(),node);
 
@@ -136,7 +135,7 @@ public class KcorenessFunction implements CDProtocol {
 		for (i = 0; i < estimation.size(); i++) {
 			int neighborID=(int) link.getNeighbor(i).getID();
 			if(!Dynamics.removedNodesID.contains(neighborID)){
-			//if (neighborID!=removedNodeID){
+				//if (neighborID!=removedNodeID){
 				j = (k < (int) estimation.get(neighborID)) ? k : (int) estimation.get(neighborID);
 				counts[j] = counts[j] + 1;
 			}

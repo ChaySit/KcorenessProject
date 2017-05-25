@@ -73,9 +73,17 @@ public class KcorenessObserver implements Control{
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
-					/* creates an edge with an id= eNode-Neighbor between the node and its neighbor     */
-					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);
-				}
+                   /* creates an edge with an id= eNode-Neighbor between the node and its neighbor     */
+					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
+				}	
+			}//*/
+
+			/*// Edges for remove 
+			Set<Integer> set = currentNode.getEstimation().keySet();
+			Object[] array = (Object[]) set.toArray();
+			for(int j=0; j<array.length; j++){
+				int neighborID = (int) array[j];
+				graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);	
 			}//*/
 
 			// Diplays a node with its kcoreness and the estimation of its neighbors kcoreness
@@ -112,7 +120,7 @@ public class KcorenessObserver implements Control{
 
 
 			}else{
-				System.out.println("Current node may be null");
+				System.out.println("Current node may be removed");
 			}
 
 
