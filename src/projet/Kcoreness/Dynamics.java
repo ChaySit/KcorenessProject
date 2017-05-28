@@ -7,6 +7,11 @@ import peersim.core.Linkable;
 import peersim.core.Network;
 import peersim.core.Node;
 
+/**
+ * This class can change the size of our network during the simulation by adding or removing
+ * nodes.
+ */
+
 
 
 public class Dynamics implements Control{
@@ -95,7 +100,7 @@ public class Dynamics implements Control{
 
 
 	/**
-	 * Removes a node given a given node ID
+	 * Removes a node given the node ID
 	 * @Returns 0 if removed 1 otherwise
 	 * */
 	public void removebyID(int ID){
@@ -134,7 +139,7 @@ public class Dynamics implements Control{
 
 	@Override
 	/**
-	 * Add or remove, if remove : by id or by layer.
+	 * Add or remove by id.
 	 */
 	public boolean execute() {
 		if (dynamicFlag.equals("addNodes")){

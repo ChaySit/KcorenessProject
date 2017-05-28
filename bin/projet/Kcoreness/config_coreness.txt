@@ -2,13 +2,13 @@
 random.seed 1234567890
 
 #Number of cycle
-simulation.cycles 2
+simulation.cycles 4
 
 #Nodes will be visited in a shuffle order
 control.shf Shuffle
 
 #Number of nodes
-network.size 9
+network.size 81
 
 
 #To show execution time

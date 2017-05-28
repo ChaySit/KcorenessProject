@@ -11,9 +11,9 @@ import javax.sound.sampled.ReverbType;
 
 
 /**
- * This class implements the k-Coreness decomposition alogorithm . 
+ * This class implements the k-Coreness decomposition algorithm .
  * Objects of this class holds the local k-Coreness attributes along 
- * with their own estimations for their neighboors .
+ * with their own estimations for their neighbors .
  * The instance method nextCycle() carries the code that will be executed 
  * by each node . 
  * */
@@ -154,12 +154,12 @@ public class KcorenessFunction implements CDProtocol {
 	}
 
 	/**This method computes the new temporary local coreness of a the current node
-	 * based on the local estimation of that of its neighboors.
-	 * @param estimation      : neighboors' coreness value estimation
+	 * based on the local estimation of that of its neighbors.
+	 * @param estimation      : neighbors' coreness value estimation
 	 * @param currentNode     : current node 
 	 * @param node 		  : the node for which the current coreness value is less than its local estimation
 	 * @param k		  : current local coreness of the current node 
-	 * @return the largest value i such that there are at least i neighboors with a coreness estimation greater 
+	 * @return the largest value i such that there are at least i neighbors with a coreness estimation greater
 	 * or equal to i
 	 */
 	public int ComputeIndex(HashMap<Integer,Integer> estimation, KcorenessFunction currentNode, int k, Node node){
