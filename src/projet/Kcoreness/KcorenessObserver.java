@@ -9,6 +9,7 @@ import peersim.graph.Graph;
 import peersim.graph.Parser;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
@@ -20,7 +21,7 @@ public class KcorenessObserver implements Control{
 
 	/* Parameter for kcoreness protocol identifier */
 	private static final String PAR_PROT = "protocol";
-    /* Parameter for Linkable protocol identifier */
+	/* Parameter for Linkable protocol identifier */
 	private static final String LINKABLE_PROT = "linkable";
 
 	/* Protocol identifiers : obtained from config property {@link #PAR_PROT} */
@@ -35,16 +36,16 @@ public class KcorenessObserver implements Control{
 	}
 
 	/* StyleSheet (CSS for GraphStream) */
-    protected String styleSheet =
-            "node.kcore2 {" +
-            "	fill-color: green;" +
-            "}" +
-            "node.kcore3 {" +
-            "	fill-color: red;" +
-            "}"+
-            "node.kcore4 {" +
-            "	fill-color: blue;" +
-            "}";
+	protected String styleSheet =
+			"node.kcore2 {" +
+					"	fill-color: green;" +
+					"}" +
+					"node.kcore3 {" +
+					"	fill-color: red;" +
+					"}"+
+					"node.kcore4 {" +
+					"	fill-color: blue;" +
+					"}";
 
 
 	/**
@@ -55,12 +56,13 @@ public class KcorenessObserver implements Control{
 
 		// Construction of graphStream graph
 		SingleGraph graph = new SingleGraph("Kcoreness graph");
-
-		// Adding nodes to the graph
-		for(int i=0; i<Network.size(); i++){
-			graph.addNode("n"+i);
-		}
-
+		
+		///Adding nodes to the graph
+		for(int i=0 ; i<Network.size(); i++){  
+			Node peer = Network.get(i); //Network.get(index)
+			KcorenessFunction currentNode = (KcorenessFunction) peer.getProtocol(pid);
+			graph.addNode("n"+(int)peer.getID());
+		}//*/
 
 		for (int i=0; i< Network.size(); i++){
 
@@ -69,21 +71,21 @@ public class KcorenessObserver implements Control{
 			Linkable link = (Linkable) peer.getProtocol(linkpid);
 			int currentNodeID = (int) peer.getID();
 
-			/// Edges
+			/*// Edges
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
-                   /* creates an edge with an id= eNode-Neighbor between the node and its neighbor     */
+                   //creates an edge with an id= eNode-Neighbor between the node and its neighbor 
 					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
 				}	
 			}//*/
 
-			/*// Edges for remove 
+			/// Edges for remove 
 			Set<Integer> set = currentNode.getEstimation().keySet();
 			Object[] array = (Object[]) set.toArray();
 			for(int j=0; j<array.length; j++){
 				int neighborID = (int) array[j];
-				graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);	
+				graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID, true);	
 			}//*/
 
 			// Diplays a node with its kcoreness and the estimation of its neighbors kcoreness
@@ -124,7 +126,7 @@ public class KcorenessObserver implements Control{
 			}
 
 
-			}
+		}
 
 
 		//adding the css stylesheet to the graph

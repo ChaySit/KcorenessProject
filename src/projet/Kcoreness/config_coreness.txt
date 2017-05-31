@@ -2,13 +2,13 @@
 random.seed 1234567890
 
 #Number of cycle
-simulation.cycles 2
+simulation.cycles 3
 
 #Nodes will be visited in a shuffle order
 control.shf Shuffle
 
 #Number of nodes
-network.size 9
+network.size 25
 
 
 #To show execution time
@@ -59,11 +59,11 @@ newnode.linkable lnk
 newnode.degree 2
 
 control.dnet Dynamics
-control.dnet.flag addNodes
+control.dnet.flag remove
 
 # number of nodes to add 
-control.dnet.add 1
-#control.dnet.idremoved 5
+#control.dnet.add 1
+control.dnet.idremoved 12
 control.dnet.protocol core
 control.dnet.linkable lnk
 #control.dnet.from 0
