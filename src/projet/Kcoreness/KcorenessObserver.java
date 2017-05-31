@@ -74,7 +74,7 @@ public class KcorenessObserver implements Control{
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
                    /* creates an edge with an id= eNode-Neighbor between the node and its neighbor     */
-					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);		
+					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);
 				}	
 			}//*/
 

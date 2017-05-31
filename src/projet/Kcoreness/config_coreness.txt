@@ -29,11 +29,8 @@ protocol.core.linkable lnk
 #init.wire WireImporter
 
 init.wire WireGrid
+#init.wire.k 3
 init.wire.protocol lnk
-
-### To load coreness from graphml
-### To use it change GRAPHML_READING_PATH in project.Kcoreness.KcorenessGraphmlInitializer
-#init.initial KcorenessGraphmlInitializer
 
 init.initial KcorenessInitializer
 init.initial.protocol core
@@ -46,7 +43,7 @@ include.init wire initial
 
 ### To save results as graphml 
 ### To use it change GRAPHML_WRITING_PATH in projet.Kcoreness.KcorenessGraphmlObserver first
-#control.obs KcorenessGraphmlObserver
+control.obs KcorenessGraphmlObserver
 
 control.obs KcorenessObserver
 control.obs.protocol core
@@ -60,13 +57,13 @@ control.obs.linkable lnk
 newnode NewNodeInitializer
 newnode.protocol core
 newnode.linkable lnk
-newnode.degree 2
+newnode.degree 4
 
 control.dnet Dynamics
 control.dnet.flag addNodes
 
 # number of nodes to add 
-control.dnet.add 1
+control.dnet.add 3
 #control.dnet.idremoved 5
 control.dnet.protocol core
 control.dnet.linkable lnk

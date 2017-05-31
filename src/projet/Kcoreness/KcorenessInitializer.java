@@ -10,10 +10,7 @@ import peersim.core.Node;
  * */
 
 public class KcorenessInitializer implements Control {
-    
 
-   
-	
 	/**These values are used to parse the configuration file
 	 * PAR_PROT represents the protocol of K-Coreness Function
 	 * LINKABLE_PROT represents the Linkable protocol
@@ -44,6 +41,8 @@ public class KcorenessInitializer implements Control {
             Linkable linkable = (Linkable) Network.get(i).getProtocol(linkpid);
             protocol.setChanged(false);
             protocol.setCoreness(linkable.degree());
+
+             /* filling the hashmap of the node with its neighbors and the estimation of their kcoreness */
             for (int j=0; j<linkable.degree(); j++){
             
                 protocol.newEntry(linkable.getNeighbor(j));
