@@ -185,7 +185,7 @@ public static Graph wireGrid(Graph g) {
 	}
 	g.setEdge(2,4);
 	g.setEdge(4,2);
-	
+
 	g.setEdge(1,3);
 	g.setEdge(3,1);//*/
 	
@@ -195,7 +195,7 @@ public static Graph wireGrid(Graph g) {
 		//IF ( m is not the index of the last line)
 		if (m != Math.sqrt(n)-1){
 			//FOR i taking values from the index of the first element on line m to the index of the last one
-			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); ++i) {
+			for(int i=(int) (m*n/Math.sqrt(n)); i<((m+1)*n/Math.sqrt(n)); i++) {
 				//IF (i is not the last element on line m) 
 			    if (i != (m+1)*n/Math.sqrt(n)-1){
 			    	//create an edge between each node and its successor on the same line
@@ -204,7 +204,7 @@ public static Graph wireGrid(Graph g) {
 			    }
 			    //create an edge between the node and the element which occupies its position on the following line 
 			    g.setEdge(i,(int) (i+Math.sqrt(n)));
-			    g.setEdge((int) (i+Math.sqrt(n)),i);   	
+			    g.setEdge((int) (i+Math.sqrt(n)),i);
 		    }
 		}
 		else {
@@ -217,22 +217,6 @@ public static Graph wireGrid(Graph g) {
 		}		
 	}//*/
 	
-	
-	// XML Output to graphML.XML file 
-    //GraphIO io = new GraphIO();
-    //return io.graphMLReader(g);
-    // XML Output to console for testing
-    //PrintStream out = null;
-	//PrintStream out = new PrintStream(System.out);
-	
-	/*try {
-		out = new PrintStream(new File("C:\\Eclipse\\ProjetApplication\\src\\projet\\Kcoreness\\graphML.xml"));
-	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	GraphIO.ourWriteGML(g, out);*/
-	//io.graphParser(g);
 
 	return g;	
 }

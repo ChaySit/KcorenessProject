@@ -2,6 +2,7 @@
 random.seed 1234567890
 
 #Number of cycle
+
 simulation.cycles 3
 
 #Nodes will be visited in a shuffle order
@@ -50,19 +51,20 @@ control.obs.linkable lnk
 
 
 #Specifies whether to add or remove 
-#dynamics.flag add will add a node in every cycle
+#dynamics.flag addNodes will add a node in every cycle
 #dynamics.flag remove will remove the node with the specified id (one node by simulation)
 
 newnode NewNodeInitializer
 newnode.protocol core
 newnode.linkable lnk
-newnode.degree 2
+newnode.degree 3
 
 control.dnet Dynamics
 control.dnet.flag remove
 
 # number of nodes to add 
 #control.dnet.add 1
+
 control.dnet.idremoved 12
 control.dnet.protocol core
 control.dnet.linkable lnk
