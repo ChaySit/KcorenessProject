@@ -9,6 +9,7 @@ import peersim.graph.Graph;
 import peersim.graph.Parser;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
@@ -69,16 +70,16 @@ public class KcorenessObserver implements Control{
 			Linkable link = (Linkable) peer.getProtocol(linkpid);
 			int currentNodeID = (int) peer.getID();
 
-			/// Edges
+			/*// Edges
 			if (link.degree() > 0){
 				for(int j=0; j<link.degree(); j++){
 					int neighborID = (int) link.getNeighbor(j).getID();
-                   /* creates an edge with an id= eNode-Neighbor between the node and its neighbor     */
+                   // creates an edge with an id= eNode-Neighbor between the node and its neighbor
 					graph.addEdge("e"+currentNodeID+"-"+neighborID,"n"+currentNodeID,"n"+neighborID,true);
 				}	
 			}//*/
 
-			/*// Edges for remove 
+			/// Edges for remove
 			Set<Integer> set = currentNode.getEstimation().keySet();
 			Object[] array = (Object[]) set.toArray();
 			for(int j=0; j<array.length; j++){

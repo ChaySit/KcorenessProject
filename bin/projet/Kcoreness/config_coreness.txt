@@ -8,7 +8,7 @@ simulation.cycles 4
 control.shf Shuffle
 
 #Number of nodes
-network.size 81
+network.size 25
 
 
 #To show execution time
@@ -50,20 +50,20 @@ control.obs.linkable lnk
 
 
 #Specifies whether to add or remove 
-#dynamics.flag add will add a node in every cycle
+#dynamics.flag addNodes will add a node in every cycle
 #dynamics.flag remove will remove the node with the specified id (one node by simulation)
 
 newnode NewNodeInitializer
 newnode.protocol core
 newnode.linkable lnk
-newnode.degree 2
+newnode.degree 3
 
 control.dnet Dynamics
-control.dnet.flag addNodes
+control.dnet.flag remove
 
 # number of nodes to add 
-control.dnet.add 1
-#control.dnet.idremoved 5
+#control.dnet.add 1
+control.dnet.idremoved 24
 control.dnet.protocol core
 control.dnet.linkable lnk
 #control.dnet.from 0
